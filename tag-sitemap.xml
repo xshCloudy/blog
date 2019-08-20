@@ -9,13 +9,6 @@
     </url>
 
     <url>
-        <loc>https://www.xiaoshenghao.cn/tags/guitar/</loc>
-        <lastmod>2019-06-19T05:58:19.054Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.2</priority>
-    </url>
-
-    <url>
         <loc>https://www.xiaoshenghao.cn/tags/markdown/</loc>
         <lastmod>2019-06-19T06:51:44.349Z</lastmod>
         <changefreq>weekly</changefreq>
@@ -32,6 +25,13 @@
     <url>
         <loc>https://www.xiaoshenghao.cn/tags/java/</loc>
         <lastmod>2019-08-19T17:31:45.200Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>https://www.xiaoshenghao.cn/tags/guitar/</loc>
+        <lastmod>2019-08-20T14:16:51.910Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
     </url>
