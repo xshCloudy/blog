@@ -2,17 +2,17 @@
 <sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 
     <sitemap>
-        <loc>https://www.xiaoshenghao.cn/post-sitemap.xml</loc>
+        <loc>https://xsh.gitee.io/post-sitemap.xml</loc>
         <lastmod>2019-09-26T06:17:51.009Z</lastmod>
     </sitemap>
 
     <sitemap>
-        <loc>https://www.xiaoshenghao.cn/page-sitemap.xml</loc>
+        <loc>https://xsh.gitee.io/page-sitemap.xml</loc>
         <lastmod>2019-06-14T10:18:53.541Z</lastmod>
     </sitemap>
 
     <sitemap>
-        <loc>https://www.xiaoshenghao.cn/tag-sitemap.xml</loc>
+        <loc>https://xsh.gitee.io/tag-sitemap.xml</loc>
         <lastmod>2019-06-19T05:56:59.407Z</lastmod>
     </sitemap>
 
