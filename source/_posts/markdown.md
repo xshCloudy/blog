@@ -242,3 +242,12 @@ cond(no)->op
  [2]: https://mermaidjs.github.io/
  [3]: https://mermaidjs.github.io/
  [4]: http://adrai.github.io/flowchart.js/
+
+<details>
+<summary>展开查看</summary>
+<pre><code>
+System.out.println("Hello to see U!");
+</code></pre>
+</details>
+
+

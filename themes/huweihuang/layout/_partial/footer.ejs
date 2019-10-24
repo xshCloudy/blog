@@ -180,16 +180,16 @@
 
 
 <!-- Baidu Tongji -->
-<% if (config.ba_track_id) { %>
+<% if (config['ba_track_id']) { %>
 <script>
     // dynamic User by Hux
-    var _baId = '<%= config.ba_track_id %>';
+    var _baId = '<%= config['ba_track_id'] %>';
 
     // Originial
     var _hmt = _hmt || [];
     (function() {
       var hm = document.createElement("script");
-      hm.src = "//hm.baidu.com/hm.js?" + _baId;
+      hm.src = "https://hm.baidu.com/hm.js?" + _baId;
       var s = document.getElementsByTagName("script")[0];
       s.parentNode.insertBefore(hm, s);
     })();
