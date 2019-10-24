@@ -7,6 +7,14 @@
     </url>
 
     <url>
+        <loc>https://www.xiaoshenghao.cn/uncategorized/markdown/</loc>
+        <lastmod>2019-09-26T06:17:51.009Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
         <loc>https://www.xiaoshenghao.cn/uncategorized/Stream%E5%B8%B8%E7%94%A8%E5%9C%BA%E6%99%AF/</loc>
         <lastmod>2019-09-19T08:37:36.337Z</lastmod>
         <changefreq>weekly</changefreq>
@@ -89,14 +97,6 @@
     <url>
         <loc>https://www.xiaoshenghao.cn/uncategorized/springboot%E9%9B%86%E6%88%90swagger2-%E5%A2%9E%E5%8A%A0%E5%85%A8%E5%B1%80token/</loc>
         <lastmod>2019-06-20T02:04:23.191Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.6</priority>
-
-    </url>
-
-    <url>
-        <loc>https://www.xiaoshenghao.cn/uncategorized/markdown/</loc>
-        <lastmod>2019-06-19T06:51:44.349Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.6</priority>
 
