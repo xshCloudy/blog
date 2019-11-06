@@ -3,7 +3,7 @@ title: Stream常用场景
 catalog: true
 date: 2019-09-19 16:33:05
 subtitle: "Stream常用场景"
-header-img: "/img/article_header/article_header.png"
+header-img: "/blog/img/article_header/article_header.png"
 tags:
 - guita
 ---

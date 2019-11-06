@@ -3,13 +3,13 @@ title: 吉他C大调和弦总结
 catalog: true
 date: 2019-08-21 00:08:59
 subtitle: "吉他C大调和弦总结"
-header-img: "/img/article_header/article_header.png"
+header-img: "/blog/img/article_header/article_header.png"
 tags:
 - guitar
 ---
 ## 一.C调常用和弦指法图
 ###### C和弦
-![在这里插入图片描述](/img/guitar/C/picture/c.png)
+![在这里插入图片描述](/blog/img/guitar/C/picture/c.png)
 ```javascript
 C和弦是由C、E、G三个音叠置构成的大三和弦，是C大调中的I级主和弦。上图为常见的四种C和弦图表现形式。其中前三种指法一样，
 第四种有小指按6弦3品，在学习的过程中由于简化指法所以我们没有按6弦3品。
@@ -20,7 +20,7 @@ C和弦的按法：
 不简化指法时：食指按2弦1品、中指按4弦2品、无名指按6弦3品、小指按5弦3品
 ```
 ###### Dm和弦
-![在这里插入图片描述](/img/guitar/C/picture/dm.png)
+![在这里插入图片描述](/blog/img/guitar/C/picture/dm.png)
 ```javascript
 Dm和弦是由D、F、A三个音叠置构成的小三和弦，是C大调中的II级和弦。以上为常见的三种Dm和弦图。
 和弦图中的数字1代表食指、2代表中指、3代表无名指、4代表小指，如果和弦图中有数字5或者字母T则代表大拇指。
@@ -29,7 +29,7 @@ Dm和弦按法：
 食指按1弦1品、中指按3弦2品、无名指按2弦3品
 ```
 ###### Em和弦
-![在这里插入图片描述](/img/guitar/C/picture/em.png)
+![在这里插入图片描述](/blog/img/guitar/C/picture/em.png)
 ```javascript
 Em和弦是由E、G、B三音叠置构成的小三和弦，是C大调中的III级和弦。以上为常见的三种Em和弦图。
 和弦图中的数字1代表食指、2代表中指、3代表无名指、4代表小指，如果和弦图中有数字5或者字母T则代表大拇指。
@@ -39,7 +39,7 @@ Em和弦的按法：
 
 ```
 ###### F和弦
-![在这里插入图片描述](/img/guitar/C/picture/f.png)
+![在这里插入图片描述](/blog/img/guitar/C/picture/f.png)
 ```javascript
 F和弦是由F、A、C三音叠置构成的大三和弦，是C大调中的IV级下属和弦。上图中前三种是常见的F和弦图，
 第四种是简化了指法的F和弦图（不需要弹5、6弦时可以用简化的指法）。
@@ -52,7 +52,7 @@ F和弦的按法：
 简化指法时（如上图4）：食指小横按1弦-2弦1品、中指按3弦2品、无名指按4弦3品
 ```
 ###### G和弦
-![在这里插入图片描述](/img/guitar/C/picture/g.png)
+![在这里插入图片描述](/blog/img/guitar/C/picture/g.png)
 ```javascript
 G和弦是由G、B、D三音叠置构成的大三和弦，是C大调中的V级属和弦。以上为常见的三种G和弦图。
 和弦图中的数字1代表食指、2代表中指、3代表无名指、4代表小指，如果和弦图中有数字5或者字母T则代表大拇指。
@@ -63,7 +63,7 @@ G和弦的按法：
 以上两种按法都可以，至于用哪个按法好些可能因人而异，同时在实际弹奏中需要考虑转换至下一个和弦时哪种按法方便。
 ```
 ###### Am和弦
-![在这里插入图片描述](/img/guitar/C/picture/am.png)
+![在这里插入图片描述](/blog/img/guitar/C/picture/am.png)
 ```javascript
 Am和弦是由A、C、E三音叠置构成的小三和弦，是C大调中的VI级和弦。以上为常见的Am和弦图。
 和弦图中的数字1代表食指、2代表中指、3代表无名指、4代表小指，如果和弦图中有数字5或者字母T则代表大拇指。
@@ -73,7 +73,7 @@ Am和弦的按法：
 
 ```
 ###### G7和弦
-![在这里插入图片描述](/img/guitar/C/picture/g7.png)
+![在这里插入图片描述](/blog/img/guitar/C/picture/g7.png)
 ```javascript
 G7和弦是以大调中属音G为根音，由G、B、D、F四音叠置构成的七和弦，是C大调中的V级属七和弦。
 和弦图中的数字1代表食指、2代表中指、3代表无名指、4代表小指，如果和弦图中有数字5或者字母T则代表大拇指。
@@ -94,5 +94,5 @@ C大调经常被音乐家看成是回归自然、追求理性或展望未来。
 
 ```
 ## 三.吉他指板C大调音阶图
-![在这里插入图片描述](/img/guitar/C/picture/c_list.png)
+![在这里插入图片描述](/blog/img/guitar/C/picture/c_list.png)
 

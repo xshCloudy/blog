@@ -3,7 +3,7 @@ title: springboot使用redis作为二级缓存
 catalog: true
 date: 2019-06-26 23:33:50
 subtitle: "二级缓存"
-header-img: "/img/article_header/article_header.png"
+header-img: "/blog/img/article_header/article_header.png"
 tags:
 - java
 ---

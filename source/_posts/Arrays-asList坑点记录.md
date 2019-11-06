@@ -3,7 +3,7 @@ title: Arrays.asList坑点记录
 catalog: true
 date: 2019-08-17 13:43:51
 subtitle: "Arrays.asList坑点记录"
-header-img: "/img/article_header/article_header.png"
+header-img: "/blog/img/article_header/article_header.png"
 tags:
 - java
 ---

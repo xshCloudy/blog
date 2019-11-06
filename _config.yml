@@ -11,8 +11,8 @@ timezone:
 
 # URL
 ## If your site is put in a subdirectory, set url as 'http://yoursite.com/child' and root as '/child/'
-url: https://xsh_cloudy.gitee.io/blog      # Note: don't forget to modify the CNAME file to your url
-root: /
+url: https://xiaoshenghao.cn/blog      # Note: don't forget to modify the CNAME file to your url
+root: /blog
 #permalink: :year/:month/:day/:title/
 permalink: :category/:title/
 permalink_defaults:
@@ -25,11 +25,11 @@ SEOTitle: 肖圣豪 | Blog
 email: xsh_cloudy@163.com
 description: ""
 keyword: ""
-header-img: /img/header_img/home.jpg
-article-img: /img/article_header/article_bg.jpg
-404-img: /img/header_img/404.png
+header-img: /blog/img/header_img/home.jpg
+article-img: /blog/img/article_header/article_bg.jpg
+404-img: /blog/img/header_img/404.png
 signature: false #show signature
-signature-img: img/signature/BeanTechSign-white.png 
+signature-img: /blog/img/signature/BeanTechSign-white.png 
 
 
 # SNS settings
@@ -65,7 +65,7 @@ ga_domain: yoursite
 # Sidebar settings
 sidebar: true                       # whether or not using Sidebar.
 sidebar-about-description: "Stay hungry,Stay foolish"
-sidebar-avatar: /img/avatar/ironman.png      # use absolute URL, seeing it's used in both `/` and `/about/`
+sidebar-avatar: /blog/img/avatar/ironman.png      # use absolute URL, seeing it's used in both `/` and `/about/`
 widgets:
 - featured-tags
 - short-about
@@ -76,7 +76,7 @@ widgets:
 
 # widget behavior
 ## Archive
-archives-img: /img/header_img/archives-widget.jpg
+archives-img: /blog/img/header_img/archives-widget.jpg
 archive_type: 'monthly'
 show_count: true
 
@@ -198,8 +198,8 @@ data-fixed: true
 # Reward
 reward: true
 reward_comment: 赞赏一下
-wechatpay: /css/images/wx.JPG
-alipay: /css/images/zfb.JPG
+wechatpay: /blog/css/images/wx.JPG
+alipay: /blog/css/images/zfb.JPG
 
 # Share
 # Reference: https://github.com/overtrue/share.js
@@ -218,7 +218,7 @@ sitemap:
 # branch: master
 deploy:
   type: git
-  repository: git@gitee.com:xsh_cloudy/blog.git
+  repository: git@gitee.com:xshCloudy/blog.git
   branch: prod
   
 livere_uid: MTAyMC80NDc0MS8yMTI2Mg==

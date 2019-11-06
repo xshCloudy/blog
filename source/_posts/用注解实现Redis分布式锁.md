@@ -3,7 +3,7 @@ title: 用注解实现Redis分布式锁
 catalog: true
 date: 2019-06-28 15:16:55
 subtitle: "redis分布式锁"
-header-img: "/img/article_header/article_header.png"
+header-img: "/blog/img/article_header/article_header.png"
 tags:
 - java
 ---

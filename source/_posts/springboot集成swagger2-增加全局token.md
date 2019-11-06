@@ -3,7 +3,7 @@ title: springboot集成swagger2(增加全局token)
 catalog: true
 date: 2019-06-19 15:59:57
 subtitle: swagger
-header-img: "/img/article_header/article_header.png"
+header-img: "/blog/img/article_header/article_header.png"
 tags:
 - java
 ---
