@@ -1,0 +1,622 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="keyword"  content="">
+    <link rel="shortcut icon" href="/blog/css/images/favicon.ico">
+    <!-- Place this tag in your head or just before your close body tag. -->
+    <script async defer src="https://buttons.github.io/buttons.js"></script>
+    <title>
+        
+          分布式事务seata(二)springboot+seata+dubbo集成（AT模式） - 肖圣豪 | Blog
+        
+    </title>
+
+    <link rel="canonical" href="https://xshcloudy.gitee.io/blog/blog/uncategorized/分布式事务seata-二-springboot-seata-dubbo集成（AT模式）/">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="../../css/bootstrap.min.css">
+
+    <!-- Custom CSS --> 
+    <link rel="stylesheet" href="../../css/beantech.min.css">
+
+    <link rel="stylesheet" href="../../css/donate.css">
+    
+    <!-- Pygments Highlight CSS -->
+    <link rel="stylesheet" href="../../css/highlight.css">
+
+    <link rel="stylesheet" href="../../css/widget.css">
+
+    <link rel="stylesheet" href="../../css/rocket.css">
+
+    <link rel="stylesheet" href="../../css/signature.css">
+
+    <link rel="stylesheet" href="../../css/toc.css">
+
+    <!-- Custom Fonts -->
+    <!-- <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css"> -->
+    <!-- Hux change font-awesome CDN to qiniu -->
+    <link href="https://cdn.staticfile.org/font-awesome/4.5.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+
+    <!-- Hux Delete, sad but pending in China
+    <link href='http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/
+    css'>
+    -->
+
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- ga & ba script hoook -->
+    <script></script>
+</head>
+
+
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="">
+	<!-- Modified by Yu-Hsuan Yen -->
+<!-- Post Header -->
+<style type="text/css">
+    header.intro-header{
+        
+            background-image: url('/blog/img/header_img/404.png')
+            /*post*/
+        
+    }
+    
+</style>
+
+<header class="intro-header" >
+    <!-- Signature -->
+    <div id="signature">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                
+                    <div class="post-heading">
+                        <div class="tags">
+                            
+                              <a class="tag" href="/blog/tags/#seata" title="seata">seata</a>
+                            
+                        </div>
+                        <h1>分布式事务seata(二)springboot+seata+dubbo集成（AT模式）</h1>
+                        <h2 class="subheading">seata</h2>
+                        <span class="meta">
+                            Posted by 肖圣豪 on
+                            2020-12-04
+                        </span>
+                    </div>
+                
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+	
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/blog/">肖圣豪</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/blog/">Home</a>
+                    </li>
+
+                    
+
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/blog/about/">About</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/blog/archive/">Archives</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/blog/tags/">Tags</a>
+                        </li>
+                        
+                    
+                    
+                </ul>
+            </div>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+
+    <!-- Main Content -->
+    <!-- Modify by Yu-Hsuan Yen -->
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+
+            <!-- Post Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                post-container">
+
+                <h2 id="分布式事务seata二springbootseatadubbo集成at模式">分布式事务seata(二)springboot+seata+dubbo集成（AT模式）</h2>
+<h3 id="一配置">一.配置</h3>
+<p><code>1.maven依赖</code>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line">&lt;dependency&gt;</span><br><span class="line">     &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;</span><br><span class="line">     &lt;artifactId&gt;spring-boot-starter-web&lt;/artifactId&gt;</span><br><span class="line">   &lt;/dependency&gt;</span><br><span class="line">   &lt;dependency&gt;</span><br><span class="line">     &lt;groupId&gt;org.mybatis.spring.boot&lt;/groupId&gt;</span><br><span class="line">     &lt;artifactId&gt;mybatis-spring-boot-starter&lt;/artifactId&gt;</span><br><span class="line">     &lt;version&gt;$&#123;mybatis.version&#125;&lt;/version&gt;</span><br><span class="line">   &lt;/dependency&gt;  </span><br><span class="line">&lt;dependency&gt;</span><br><span class="line">     &lt;groupId&gt;mysql&lt;/groupId&gt;</span><br><span class="line">     &lt;artifactId&gt;mysql-connector-java&lt;/artifactId&gt;</span><br><span class="line">     &lt;version&gt;5.1.21&lt;/version&gt;</span><br><span class="line">   &lt;/dependency&gt;</span><br><span class="line">   &lt;dependency&gt;</span><br><span class="line">     &lt;groupId&gt;com.alibaba&lt;/groupId&gt;</span><br><span class="line">     &lt;artifactId&gt;druid-spring-boot-starter&lt;/artifactId&gt;</span><br><span class="line">     &lt;version&gt;$&#123;druid.version&#125;&lt;/version&gt;</span><br><span class="line">   &lt;/dependency&gt;</span><br><span class="line">&lt;dependency&gt;</span><br><span class="line">	&lt;groupId&gt;com.alibaba.spring.boot&lt;/groupId&gt;</span><br><span class="line">	&lt;artifactId&gt;dubbo-spring-boot-starter&lt;/artifactId&gt;</span><br><span class="line">	&lt;version&gt;2.0.0&lt;/version&gt;</span><br><span class="line">&lt;/dependency&gt;</span><br><span class="line">&lt;dependency&gt;</span><br><span class="line">	&lt;groupId&gt;com.101tec&lt;/groupId&gt;</span><br><span class="line">	&lt;artifactId&gt;zkclient&lt;/artifactId&gt;</span><br><span class="line">	&lt;version&gt;0.10&lt;/version&gt;</span><br><span class="line">	&lt;exclusions&gt;</span><br><span class="line">		&lt;exclusion&gt;</span><br><span class="line">			&lt;groupId&gt;org.slf4j&lt;/groupId&gt;</span><br><span class="line">			&lt;artifactId&gt;slf4j-log4j12&lt;/artifactId&gt;</span><br><span class="line">		&lt;/exclusion&gt;</span><br><span class="line">	&lt;/exclusions&gt;</span><br><span class="line">&lt;/dependency&gt;</span><br><span class="line">&lt;dependency&gt;</span><br><span class="line">	&lt;groupId&gt;io.seata&lt;/groupId&gt;</span><br><span class="line">	&lt;artifactId&gt;seata-all&lt;/artifactId&gt;</span><br><span class="line">	&lt;version&gt;1.4.0&lt;/version&gt;</span><br><span class="line">&lt;/dependency&gt;</span><br></pre></td></tr></table></figure></p>
+<p><code>2.服务端配置（TC）</code></p>
+<pre><code>打开https://github.com/seata/seata/releases，下载seata-server,这里使用的1.4.0版本。
+进入seata/conf目录，目录下有两个关键配置文件：register.conf,file.conf。
+
+register.conf是seata服务端（TC）的注册中心和配置中心的配置文件。
+Seata配置中心支持consul，apollo，etcd,zookeeper,redis,file(直连)，
+seata注册中心支持eureka，consul，apollo，etcd,zookeeper,redis,sofa，file(使用文件做配置中心)。
+
+register.conf中register的type属性是file时，表示不依赖第三方配置注册中心，
+直接用seata-server直连。如果需要搭建高可用体系，建议使用注册中心。这里使用zk做示范。
+
+register.conf中config的type属性是file时，表示使用file.conf做配置中心。
+file.conf中可以指定事务日志存贮方式，有三种存贮方式：file、db、redis。
+指定file时，事务日志会存贮在本地seata/bin/sessionStore/目录下的root.data文件中。
+指定db时，事务日志会存贮在数据库中。指定redis时，使用redis存贮事务日志。这里使用file做示范。
+</code></pre>
+<p><strong>register.conf</strong>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br></pre></td><td class="code"><pre><span class="line">registry &#123;</span><br><span class="line">  # file 、nacos 、eureka、redis、zk、consul、etcd3、sofa</span><br><span class="line">  type = <span class="string">"zk"</span></span><br><span class="line">  loadBalance = <span class="string">"RandomLoadBalance"</span></span><br><span class="line">  loadBalanceVirtualNodes = <span class="number">10</span></span><br><span class="line"></span><br><span class="line">  nacos &#123;</span><br><span class="line">    application = <span class="string">"seata-server"</span></span><br><span class="line">    serverAddr = <span class="string">"127.0.0.1:8848"</span></span><br><span class="line">    group = <span class="string">"SEATA_GROUP"</span></span><br><span class="line">    namespace = <span class="string">""</span></span><br><span class="line">    cluster = <span class="string">"default"</span></span><br><span class="line">    username = <span class="string">""</span></span><br><span class="line">    password = <span class="string">""</span></span><br><span class="line">  &#125;</span><br><span class="line">  eureka &#123;</span><br><span class="line">    serviceUrl = <span class="string">"http://localhost:8761/eureka"</span></span><br><span class="line">    application = <span class="string">"default"</span></span><br><span class="line">    weight = <span class="string">"1"</span></span><br><span class="line">  &#125;</span><br><span class="line">  redis &#123;</span><br><span class="line">    serverAddr = <span class="string">"localhost:6379"</span></span><br><span class="line">    db = <span class="number">0</span></span><br><span class="line">    password = <span class="string">""</span></span><br><span class="line">    cluster = <span class="string">"default"</span></span><br><span class="line">    timeout = <span class="number">0</span></span><br><span class="line">  &#125;</span><br><span class="line">  zk &#123;</span><br><span class="line">    cluster = <span class="string">"default"</span></span><br><span class="line">    serverAddr = <span class="string">"127.0.0.1:2181"</span></span><br><span class="line">    sessionTimeout = <span class="number">6000</span></span><br><span class="line">    connectTimeout = <span class="number">2000</span></span><br><span class="line">    username = <span class="string">""</span></span><br><span class="line">    password = <span class="string">""</span></span><br><span class="line">  &#125;</span><br><span class="line">  consul &#123;</span><br><span class="line">    cluster = <span class="string">"default"</span></span><br><span class="line">    serverAddr = <span class="string">"127.0.0.1:8500"</span></span><br><span class="line">  &#125;</span><br><span class="line">  etcd3 &#123;</span><br><span class="line">    cluster = <span class="string">"default"</span></span><br><span class="line">    serverAddr = <span class="string">"http://localhost:2379"</span></span><br><span class="line">  &#125;</span><br><span class="line">  sofa &#123;</span><br><span class="line">    serverAddr = <span class="string">"127.0.0.1:9603"</span></span><br><span class="line">    application = <span class="string">"default"</span></span><br><span class="line">    region = <span class="string">"DEFAULT_ZONE"</span></span><br><span class="line">    datacenter = <span class="string">"DefaultDataCenter"</span></span><br><span class="line">    cluster = <span class="string">"default"</span></span><br><span class="line">    group = <span class="string">"SEATA_GROUP"</span></span><br><span class="line">    addressWaitTime = <span class="string">"3000"</span></span><br><span class="line">  &#125;</span><br><span class="line">  file &#123;</span><br><span class="line">    name = <span class="string">"file.conf"</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">config &#123;</span><br><span class="line">  # file、nacos 、apollo、zk、consul、etcd3</span><br><span class="line">  type = <span class="string">"file"</span></span><br><span class="line"></span><br><span class="line">  nacos &#123;</span><br><span class="line">    serverAddr = <span class="string">"127.0.0.1:8848"</span></span><br><span class="line">    namespace = <span class="string">""</span></span><br><span class="line">    group = <span class="string">"SEATA_GROUP"</span></span><br><span class="line">    username = <span class="string">""</span></span><br><span class="line">    password = <span class="string">""</span></span><br><span class="line">  &#125;</span><br><span class="line">  consul &#123;</span><br><span class="line">    serverAddr = <span class="string">"127.0.0.1:8500"</span></span><br><span class="line">  &#125;</span><br><span class="line">  apollo &#123;</span><br><span class="line">    appId = <span class="string">"seata-server"</span></span><br><span class="line">    apolloMeta = <span class="string">"http://192.168.1.204:8801"</span></span><br><span class="line">    namespace = <span class="string">"application"</span></span><br><span class="line">    apolloAccesskeySecret = <span class="string">""</span></span><br><span class="line">  &#125;</span><br><span class="line">  zk &#123;</span><br><span class="line">    serverAddr = <span class="string">"127.0.0.1:2181"</span></span><br><span class="line">    sessionTimeout = <span class="number">6000</span></span><br><span class="line">    connectTimeout = <span class="number">2000</span></span><br><span class="line">    username = <span class="string">""</span></span><br><span class="line">    password = <span class="string">""</span></span><br><span class="line">  &#125;</span><br><span class="line">  etcd3 &#123;</span><br><span class="line">    serverAddr = <span class="string">"http://localhost:2379"</span></span><br><span class="line">  &#125;</span><br><span class="line">  file &#123;</span><br><span class="line">    name = <span class="string">"file.conf"</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p><strong>file.conf</strong>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br></pre></td><td class="code"><pre><span class="line">## transaction log store, only used in seata-server</span><br><span class="line">store &#123;</span><br><span class="line">  ## store mode: file、db、redis</span><br><span class="line">  mode = <span class="string">"file"</span></span><br><span class="line"></span><br><span class="line">  ## file store property</span><br><span class="line">  file &#123;</span><br><span class="line">    ## store location dir</span><br><span class="line">    dir = <span class="string">"sessionStore"</span></span><br><span class="line">    # branch session size , if exceeded first try compress lockkey, still exceeded throws exceptions</span><br><span class="line">    maxBranchSessionSize = <span class="number">16384</span></span><br><span class="line">    # globe session size , if exceeded throws exceptions</span><br><span class="line">    maxGlobalSessionSize = <span class="number">512</span></span><br><span class="line">    # file buffer size , if exceeded allocate new buffer</span><br><span class="line">    fileWriteBufferCacheSize = <span class="number">16384</span></span><br><span class="line">    # when recover batch read size</span><br><span class="line">    sessionReloadReadSize = <span class="number">100</span></span><br><span class="line">    # async, sync</span><br><span class="line">    flushDiskMode = async</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  ## database store property</span><br><span class="line">  db &#123;</span><br><span class="line">    ## the implement of javax.sql.DataSource, such as DruidDataSource(druid)/BasicDataSource(dbcp)/HikariDataSource(hikari) etc.</span><br><span class="line">    datasource = <span class="string">"druid"</span></span><br><span class="line">    ## mysql/oracle/postgresql/h2/oceanbase etc.</span><br><span class="line">    dbType = <span class="string">"mysql"</span></span><br><span class="line">    driverClassName = <span class="string">"com.mysql.jdbc.Driver"</span></span><br><span class="line">    url = <span class="string">"jdbc:mysql://127.0.0.1:3306/seata"</span></span><br><span class="line">    user = <span class="string">"root"</span></span><br><span class="line">    password = <span class="string">"111111"</span></span><br><span class="line">    minConn = <span class="number">5</span></span><br><span class="line">    maxConn = <span class="number">100</span></span><br><span class="line">    globalTable = <span class="string">"global_table"</span></span><br><span class="line">    branchTable = <span class="string">"branch_table"</span></span><br><span class="line">    lockTable = <span class="string">"lock_table"</span></span><br><span class="line">    queryLimit = <span class="number">100</span></span><br><span class="line">    maxWait = <span class="number">5000</span></span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  ## redis store property</span><br><span class="line">  redis &#123;</span><br><span class="line">    host = <span class="string">"127.0.0.1"</span></span><br><span class="line">    port = <span class="string">"6379"</span></span><br><span class="line">    password = <span class="string">""</span></span><br><span class="line">    database = <span class="string">"0"</span></span><br><span class="line">    minConn = <span class="number">1</span></span><br><span class="line">    maxConn = <span class="number">10</span></span><br><span class="line">    maxTotal = <span class="number">100</span></span><br><span class="line">    queryLimit = <span class="number">100</span></span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p><code>2.客户端配置（TM,RM）</code>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">在项目classpath路径下新建register.conf,file.conf文件，这里的文件和服务端TC的register.conf,file.conf文件同理。</span><br></pre></td></tr></table></figure></p>
+<p><strong>register.conf</strong>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br></pre></td><td class="code"><pre><span class="line">registry &#123;</span><br><span class="line">  # file 、nacos 、eureka、redis、zk、consul、etcd3、sofa</span><br><span class="line">  type = <span class="string">"zk"</span></span><br><span class="line"></span><br><span class="line">  nacos &#123;</span><br><span class="line">    application = <span class="string">"seata-server"</span></span><br><span class="line">    serverAddr = <span class="string">"localhost"</span></span><br><span class="line">    namespace = <span class="string">""</span></span><br><span class="line">    username = <span class="string">""</span></span><br><span class="line">    password = <span class="string">""</span></span><br><span class="line">  &#125;</span><br><span class="line">  eureka &#123;</span><br><span class="line">    serviceUrl = <span class="string">"http://localhost:8761/eureka"</span></span><br><span class="line">    weight = <span class="string">"1"</span></span><br><span class="line">  &#125;</span><br><span class="line">  redis &#123;</span><br><span class="line">    serverAddr = <span class="string">"localhost:6379"</span></span><br><span class="line">    db = <span class="string">"0"</span></span><br><span class="line">    password = <span class="string">""</span></span><br><span class="line">    timeout = <span class="string">"0"</span></span><br><span class="line">  &#125;</span><br><span class="line">  zk &#123;</span><br><span class="line">    serverAddr = <span class="string">"127.0.0.1:2181"</span></span><br><span class="line">    sessionTimeout = <span class="number">6000</span></span><br><span class="line">    connectTimeout = <span class="number">2000</span></span><br><span class="line">    username = <span class="string">""</span></span><br><span class="line">    password = <span class="string">""</span></span><br><span class="line">  &#125;</span><br><span class="line">  consul &#123;</span><br><span class="line">    serverAddr = <span class="string">"127.0.0.1:8500"</span></span><br><span class="line">  &#125;</span><br><span class="line">  etcd3 &#123;</span><br><span class="line">    serverAddr = <span class="string">"http://localhost:2379"</span></span><br><span class="line">  &#125;</span><br><span class="line">  sofa &#123;</span><br><span class="line">    serverAddr = <span class="string">"127.0.0.1:9603"</span></span><br><span class="line">    region = <span class="string">"DEFAULT_ZONE"</span></span><br><span class="line">    datacenter = <span class="string">"DefaultDataCenter"</span></span><br><span class="line">    group = <span class="string">"SEATA_GROUP"</span></span><br><span class="line">    addressWaitTime = <span class="string">"3000"</span></span><br><span class="line">  &#125;</span><br><span class="line">  file &#123;</span><br><span class="line">    name = <span class="string">"file.conf"</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">config &#123;</span><br><span class="line">  # file、nacos 、apollo、zk、consul、etcd3、springCloudConfig</span><br><span class="line">  type = <span class="string">"file"</span></span><br><span class="line"></span><br><span class="line">  nacos &#123;</span><br><span class="line">    serverAddr = <span class="string">"localhost"</span></span><br><span class="line">    namespace = <span class="string">""</span></span><br><span class="line">    group = <span class="string">"SEATA_GROUP"</span></span><br><span class="line">    username = <span class="string">""</span></span><br><span class="line">    password = <span class="string">""</span></span><br><span class="line">  &#125;</span><br><span class="line">  consul &#123;</span><br><span class="line">    serverAddr = <span class="string">"127.0.0.1:8500"</span></span><br><span class="line">  &#125;</span><br><span class="line">  apollo &#123;</span><br><span class="line">    appId = <span class="string">"seata-server"</span></span><br><span class="line">    apolloMeta = <span class="string">"http://192.168.1.204:8801"</span></span><br><span class="line">    namespace = <span class="string">"application"</span></span><br><span class="line">  &#125;</span><br><span class="line">  zk &#123;</span><br><span class="line">    serverAddr = <span class="string">"localhost:2181"</span></span><br><span class="line">    sessionTimeout = <span class="number">6000</span></span><br><span class="line">    connectTimeout = <span class="number">2000</span></span><br><span class="line">    username = <span class="string">""</span></span><br><span class="line">    password = <span class="string">""</span></span><br><span class="line">  &#125;</span><br><span class="line">  etcd3 &#123;</span><br><span class="line">    serverAddr = <span class="string">"http://localhost:2379"</span></span><br><span class="line">  &#125;</span><br><span class="line">  file &#123;</span><br><span class="line">    name = <span class="string">"file.conf"</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p><strong>file.conf</strong>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br></pre></td><td class="code"><pre><span class="line">transport &#123;</span><br><span class="line">  # tcp udt unix-domain-socket</span><br><span class="line">  type = <span class="string">"TCP"</span></span><br><span class="line">  #NIO NATIVE</span><br><span class="line">  server = <span class="string">"NIO"</span></span><br><span class="line">  #enable heartbeat</span><br><span class="line">  heartbeat = <span class="keyword">true</span></span><br><span class="line">  # the client batch send request enable</span><br><span class="line">  enableClientBatchSendRequest = <span class="keyword">true</span></span><br><span class="line">  #thread factory for netty</span><br><span class="line">  threadFactory &#123;</span><br><span class="line">    bossThreadPrefix = <span class="string">"NettyBoss"</span></span><br><span class="line">    workerThreadPrefix = <span class="string">"NettyServerNIOWorker"</span></span><br><span class="line">    serverExecutorThread-prefix = <span class="string">"NettyServerBizHandler"</span></span><br><span class="line">    shareBossWorker = <span class="keyword">false</span></span><br><span class="line">    clientSelectorThreadPrefix = <span class="string">"NettyClientSelector"</span></span><br><span class="line">    clientSelectorThreadSize = <span class="number">1</span></span><br><span class="line">    clientWorkerThreadPrefix = <span class="string">"NettyClientWorkerThread"</span></span><br><span class="line">    # netty boss thread size,will not be used for UDT</span><br><span class="line">    bossThreadSize = <span class="number">1</span></span><br><span class="line">    #auto default pin or 8</span><br><span class="line">    workerThreadSize = <span class="string">"default"</span></span><br><span class="line">  &#125;</span><br><span class="line">  shutdown &#123;</span><br><span class="line">    # when destroy server, wait seconds</span><br><span class="line">    wait = <span class="number">3</span></span><br><span class="line">  &#125;</span><br><span class="line">  serialization = <span class="string">"seata"</span></span><br><span class="line">  compressor = <span class="string">"none"</span></span><br><span class="line">&#125;</span><br><span class="line">service &#123;</span><br><span class="line">  #transaction service group mapping</span><br><span class="line">  vgroupMapping.my_test_tx_group = <span class="string">"default"</span></span><br><span class="line">  #only support when registry.type=file, please don't set multiple addresses</span><br><span class="line">  <span class="keyword">default</span>.grouplist = <span class="string">"127.0.0.1:8091"</span></span><br><span class="line">  #degrade, current not support</span><br><span class="line">  enableDegrade = <span class="keyword">false</span></span><br><span class="line">  #disable seata</span><br><span class="line">  disableGlobalTransaction = <span class="keyword">false</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">client &#123;</span><br><span class="line">  rm &#123;</span><br><span class="line">    asyncCommitBufferLimit = <span class="number">10000</span></span><br><span class="line">    lock &#123;</span><br><span class="line">      retryInterval = <span class="number">10</span></span><br><span class="line">      retryTimes = <span class="number">30</span></span><br><span class="line">      retryPolicyBranchRollbackOnConflict = <span class="keyword">true</span></span><br><span class="line">    &#125;</span><br><span class="line">    reportRetryCount = <span class="number">5</span></span><br><span class="line">    tableMetaCheckEnable = <span class="keyword">false</span></span><br><span class="line">    reportSuccessEnable = <span class="keyword">false</span></span><br><span class="line">  &#125;</span><br><span class="line">  tm &#123;</span><br><span class="line">    commitRetryCount = <span class="number">5</span></span><br><span class="line">    rollbackRetryCount = <span class="number">5</span></span><br><span class="line">  &#125;</span><br><span class="line">  undo &#123;</span><br><span class="line">    dataValidation = <span class="keyword">true</span></span><br><span class="line">    logSerialization = <span class="string">"jackson"</span></span><br><span class="line">    logTable = <span class="string">"undo_log"</span></span><br><span class="line">  &#125;</span><br><span class="line">  log &#123;</span><br><span class="line">    exceptionRate = <span class="number">100</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p><code>3.数据源及GlobalTransactionScanner配置</code>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Configuration</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">SeataAutoConfig</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">  </span><br><span class="line">    <span class="meta">@Autowired</span></span><br><span class="line">    <span class="keyword">private</span> DataSourceProperties dataSourceProperties;</span><br><span class="line"></span><br><span class="line">  </span><br><span class="line">    <span class="meta">@Bean</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> DruidDataSource <span class="title">druidDataSource</span><span class="params">()</span></span>&#123;</span><br><span class="line">        DruidDataSource druidDataSource = <span class="keyword">new</span> DruidDataSource();</span><br><span class="line">        druidDataSource.setUrl(dataSourceProperties.getUrl());</span><br><span class="line">        druidDataSource.setUsername(dataSourceProperties.getUsername());</span><br><span class="line">        druidDataSource.setPassword(dataSourceProperties.getPassword());</span><br><span class="line">        druidDataSource.setDriverClassName(dataSourceProperties.getDriverClassName());</span><br><span class="line">        druidDataSource.setInitialSize(<span class="number">0</span>);</span><br><span class="line">        druidDataSource.setMaxActive(<span class="number">180</span>);</span><br><span class="line">        druidDataSource.setMaxWait(<span class="number">60000</span>);</span><br><span class="line">        druidDataSource.setMinIdle(<span class="number">0</span>);</span><br><span class="line">        druidDataSource.setValidationQuery(<span class="string">"Select 1 from DUAL"</span>);</span><br><span class="line">        druidDataSource.setTestOnBorrow(<span class="keyword">false</span>);</span><br><span class="line">        druidDataSource.setTestOnReturn(<span class="keyword">false</span>);</span><br><span class="line">        druidDataSource.setTestWhileIdle(<span class="keyword">true</span>);</span><br><span class="line">        druidDataSource.setTimeBetweenEvictionRunsMillis(<span class="number">60000</span>);</span><br><span class="line">        druidDataSource.setMinEvictableIdleTimeMillis(<span class="number">25200000</span>);</span><br><span class="line">        druidDataSource.setRemoveAbandoned(<span class="keyword">true</span>);</span><br><span class="line">        druidDataSource.setRemoveAbandonedTimeout(<span class="number">1800</span>);</span><br><span class="line">        druidDataSource.setLogAbandoned(<span class="keyword">true</span>);</span><br><span class="line">        <span class="keyword">return</span> druidDataSource;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"> </span><br><span class="line">    <span class="meta">@Bean</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> DataSourceProxy <span class="title">dataSourceProxy</span><span class="params">(DruidDataSource druidDataSource)</span></span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> DataSourceProxy(druidDataSource);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Bean</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> DataSourceTransactionManager <span class="title">transactionManager</span><span class="params">(DataSourceProxy dataSourceProxy)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> DataSourceTransactionManager(dataSourceProxy);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Bean</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> SqlSessionFactory <span class="title">sqlSessionFactory</span><span class="params">(DataSourceProxy dataSourceProxy)</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">        SqlSessionFactoryBean factoryBean = <span class="keyword">new</span> SqlSessionFactoryBean();</span><br><span class="line">        factoryBean.setDataSource(dataSourceProxy);</span><br><span class="line">        factoryBean.setMapperLocations(<span class="keyword">new</span> PathMatchingResourcePatternResolver()</span><br><span class="line">                .getResources(<span class="string">"classpath*:/mapper/*.xml"</span>));</span><br><span class="line">        factoryBean.setTransactionFactory(<span class="keyword">new</span> SpringManagedTransactionFactory());</span><br><span class="line">        <span class="keyword">return</span> factoryBean.getObject();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Bean</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> GlobalTransactionScanner <span class="title">globalTransactionScanner</span><span class="params">()</span></span>&#123;</span><br><span class="line">	<span class="comment">//dubbo-seata-service是应用名，my_test_tx_group是事务分组，和客户端file.conf中service.vgroupMapping.my_test_tx_group对应。</span></span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> GlobalTransactionScanner(<span class="string">"dubbo-seata-service"</span>, <span class="string">"my_test_tx_group"</span>);</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure></p>
+<p><code>4.数据库增加事务回滚日志表</code></p>
+<pre><code>CREATE TABLE `undo_log` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `branch_id` bigint(20) NOT NULL,
+  `xid` varchar(100) NOT NULL,
+  `context` varchar(128) NOT NULL,
+  `rollback_info` longblob NOT NULL,
+  `log_status` int(11) NOT NULL,
+  `log_created` datetime NOT NULL,
+  `log_modified` datetime NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `ux_undo_log` (`xid`,`branch_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
+undo_log用于插入回滚日志,把前后镜像数据以及业务 SQL 相关的信息组成一条回滚日志记录，插入到 UNDO_LOG 表中。回滚完成后数据被删除。
+</code></pre>
+<h3 id="二启动服务">二.启动服务</h3>
+<p><code>1.启动zk</code></p>
+<p><code>2.启动seata-server</code></p>
+<p><code>3.启动项目(dubbo-seata-service和dubbo-seata)</code>
+<img src="/blog/img/seata/seata4.png" alt="在这里插入图片描述">
+如上图seata-server中的日志，可以看到provider和consumer的TM,RM都已注册成功。</p>
+<h3 id="三分布式事务的使用">三.分布式事务的使用</h3>
+<p><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">TestService</span> </span>&#123;</span><br><span class="line">    <span class="meta">@Reference</span>(retries = -<span class="number">1</span>)</span><br><span class="line">    <span class="keyword">private</span> AccountService accountService;</span><br><span class="line">    <span class="meta">@Reference</span>(retries = -<span class="number">1</span>)</span><br><span class="line">    <span class="keyword">private</span> BussinessService bussinessService;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@GlobalTransactional</span>(name = <span class="string">"dubbo-seata"</span>)</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">test</span><span class="params">()</span></span>&#123;</span><br><span class="line">        System.out.println(<span class="string">"开始全局事务，XID = "</span> + RootContext.getXID());</span><br><span class="line">        accountService.updateAccount();</span><br><span class="line">        bussinessService.updateBussiness();</span><br><span class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> RuntimeException(<span class="string">"测试抛异常后，分布式事务回滚！"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<pre><code>如上述代码，只需要在方法上加上@GlobalTransactional即可
+</code></pre>
+<p><strong>执行上述代码看seata-server日志</strong>
+<img src="/blog/img/seata/seata5.png" alt="在这里插入图片描述"></p>
+<pre><code>如上图，可以看到整个事务回滚过程，开启全局事务——注册分支事务——回滚分支事务——回滚全局事务。
+</code></pre>
+<h3 id="四范例代码">四.范例代码</h3>
+<pre><code>https://gitee.com/xshCloudy/sharding.git
+</code></pre>
+<h3 id="五参考项目及资料">五.参考项目及资料</h3>
+<pre><code>https://github.com/seata/seata.git
+https://github.com/seata/seata-samples.git
+https://seata.io/zh-cn/docs/overview/what-is-seata.html
+</code></pre>
+
+                
+
+                <hr>
+                <!-- Pager -->
+                <ul class="pager">
+                    
+                        <li class="previous">
+                            <a href="/blog/uncategorized/用Sentinel做限流、熔断和降级/" data-toggle="tooltip" data-placement="top" title="用Sentinel做限流、熔断和降级">&larr; Previous Post</a>
+                        </li>
+                    
+                    
+                        <li class="next">
+                            <a href="/blog/uncategorized/分布式事务seata-一-概述/" data-toggle="tooltip" data-placement="top" title="分布式事务seata(一)概述">Next Post &rarr;</a>
+                        </li>
+                    
+                </ul>
+
+                <br>
+
+                <!--打赏-->
+                
+                    <div class="reward">
+                        <div class="reward-button">赏 <span class="reward-code"> 
+                            <span class="alipay-code"> <img class="alipay-img" src="/blog/css/images/zfb.JPG"><b>支付宝打赏</b></span> 
+                            <span class="wechat-code"> <img class="wechat-img" src="/blog/css/images/wx.JPG"><b>微信打赏</b> </span>
+                            </span></div>
+                        <p class="reward-notice">赞赏一下</p>
+                    </div>
+                
+                <!--打赏-->
+
+                <br>
+                <!--分享-->
+                
+                    <div class="social-share"  data-wechat-qrcode-helper="" align="center"></div>
+                    <!--  css & js -->
+                    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/social-share.js/1.0.16/css/share.min.css">
+                    <script src="https://cdnjs.cloudflare.com/ajax/libs/social-share.js/1.0.16/js/social-share.min.js"></script>
+                
+                <!--分享-->
+                <br>                       
+                
+                <!-- require APlayer -->
+                
+                <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aplayer@1.10/dist/APlayer.min.css">
+                <script src="https://cdn.jsdelivr.net/npm/aplayer@1.10/dist/APlayer.min.js"></script>
+                <script src="https://cdn.jsdelivr.net/npm/meting@1.2/dist/Meting.min.js"></script>
+
+                <div class="aplayer"
+                    data-id="8537501"
+                    data-server="netease"
+                    data-type="playlist"
+                    data-fixed="false" >
+                </div>
+                
+
+                <!-- duoshuo Share start -->
+                
+                <!-- 多说 Share end-->
+
+                <!-- 多说评论框 start -->
+                
+                <!-- 多说评论框 end -->
+
+                <!-- disqus comment start -->
+                
+                <!-- disqus comment end -->
+
+                
+                    <!-- disqus 评论框 start -->
+                    <div class="comment">
+                        <div id="lv-container" data-id="city" data-uid="MTAyMC80NDc0MS8yMTI2Mg=="></div>
+                    </div>
+                    <!-- disqus 评论框 end -->
+                
+
+            </div>
+            
+            <!-- Tabe of Content -->
+            <!-- Table of Contents -->
+
+  
+    <style>
+      span.toc-nav-number{
+        display: none
+      }
+    </style>
+  
+    
+      <aside id="sidebar">
+        <div id="toc" class="toc-article">
+        <strong class="toc-title">Contents</strong>
+        
+          <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#分布式事务seata二springbootseatadubbo集成at模式"><span class="toc-nav-number">1.</span> <span class="toc-nav-text">&#x5206;&#x5E03;&#x5F0F;&#x4E8B;&#x52A1;seata(&#x4E8C;)springboot+seata+dubbo&#x96C6;&#x6210;&#xFF08;AT&#x6A21;&#x5F0F;&#xFF09;</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#一配置"><span class="toc-nav-number">1.1.</span> <span class="toc-nav-text">&#x4E00;.&#x914D;&#x7F6E;</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#二启动服务"><span class="toc-nav-number">1.2.</span> <span class="toc-nav-text">&#x4E8C;.&#x542F;&#x52A8;&#x670D;&#x52A1;</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#三分布式事务的使用"><span class="toc-nav-number">1.3.</span> <span class="toc-nav-text">&#x4E09;.&#x5206;&#x5E03;&#x5F0F;&#x4E8B;&#x52A1;&#x7684;&#x4F7F;&#x7528;</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#四范例代码"><span class="toc-nav-number">1.4.</span> <span class="toc-nav-text">&#x56DB;.&#x8303;&#x4F8B;&#x4EE3;&#x7801;</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#五参考项目及资料"><span class="toc-nav-number">1.5.</span> <span class="toc-nav-text">&#x4E94;.&#x53C2;&#x8003;&#x9879;&#x76EE;&#x53CA;&#x8D44;&#x6599;</span></a></li></ol></li></ol>
+        
+        </div>
+      </aside>
+    
+ 
+             
+            <!-- Sidebar Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+                <section>
+                    <!-- no hr -->
+                    <h5><a href="/blog/tags/">FEATURED TAGS</a></h5>
+                    <div class="tags">
+                       
+                          <a class="tag" href="/blog/tags/#seata" title="seata">seata</a>
+                        
+                    </div>
+                </section>
+                
+
+                <!-- Friends Blog -->
+                
+                <hr>
+                <h5>FRIENDS</h5>
+                <ul class="list-inline">
+
+                    
+                        <li><a href="http://valten.gitee.io/blog/" target="_blank">黄boy’s blog</a></li>
+                    
+                </ul>
+                
+            </div>
+        </div>
+    </div>
+</article>
+
+
+
+
+
+
+    <!-- 来必力City版公共JS代码 start (一个网页只需插入一次) -->
+    <script type="text/javascript">
+       (function(d, s) {
+           var j, e = d.getElementsByTagName(s)[0];
+    
+           if (typeof LivereTower === 'function') { return; }
+    
+           j = d.createElement(s);
+           j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+           j.async = true;
+    
+           e.parentNode.insertBefore(j, e);
+       })(document, 'script');
+    </script>
+    <noscript>为正常使用来必力评论功能请激活JavaScript</noscript>
+    <!-- 来必力City版 公共JS代码 end -->
+
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+<!-- anchor-js, Doc:http://bryanbraun.github.io/anchorjs/ -->
+<script>
+    async("https://cdn.bootcss.com/anchor-js/1.1.1/anchor.min.js",function(){
+        anchors.options = {
+          visible: 'hover',
+          placement: 'left',
+          icon: 'ℬ'
+        };
+        anchors.add().remove('.intro-header h1').remove('.subheading').remove('.sidebar-container h5');
+    })
+</script>
+<style>
+    /* place left on bigger screen */
+    @media all and (min-width: 800px) {
+        .anchorjs-link{
+            position: absolute;
+            left: -0.75em;
+            font-size: 1.1em;
+            margin-top : -0.1em;
+        }
+    }
+</style>
+
+
+
+    <!-- Footer -->
+    <!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                
+                
+                
+
+                
+
+                
+
+                
+                    <li>
+                        <a target="_blank"  href="https://github.com/xshCloudy">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; 肖圣豪 2021 
+                    <br>
+                    备案号：<a href="http://www.miitbeian.gov.cn/" target="_blank">鄂ICP备19004060号-1</a>
+                    <span style="display: inline-block; margin: 0 5px;">
+                        <i class="fa fa-heart"></i>
+                    </span> 
+                    Theme by <a href="http://beantech.org">BeanTech</a>
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="../../js/jquery.min.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="../../js/bootstrap.min.js"></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="../../js/hux-blog.min.js"></script>
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- 
+     Because of the native support for backtick-style fenced code blocks 
+     right within the Markdown is landed in Github Pages, 
+     From V1.6, There is no need for Highlight.js, 
+     so Huxblog drops it officially.
+
+     - https://github.com/blog/2100-github-pages-now-faster-and-simpler-with-jekyll-3-0  
+     - https://help.github.com/articles/creating-and-highlighting-code-blocks/    
+-->
+<!--
+    <script>
+        async("http://cdn.bootcss.com/highlight.js/8.6/highlight.min.js", function(){
+            hljs.initHighlightingOnLoad();
+        })
+    </script>
+    <link href="http://cdn.bootcss.com/highlight.js/8.6/styles/github.min.css" rel="stylesheet">
+-->
+
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("https://xshcloudy.gitee.io/blog/blog/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("https://cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+
+<!-- Google Analytics -->
+
+
+
+
+<!-- Baidu Tongji -->
+
+<script>
+    // dynamic User by Hux
+    var _baId = '2faf9f28f3f4a1bb030c9f2766925df7';
+
+    // Originial
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?" + _baId;
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+</script>
+
+
+
+
+
+
+	<a id="rocket" href="#top" class=""></a>
+	<script type="text/javascript" src="/js/totop.js?v=1.0.0" async=""></script>
+    <script type="text/javascript" src="/js/toc.js?v=1.0.0" async=""></script>
+<!-- Image to hack wechat -->
+<img src="https://xshcloudy.gitee.io/blog/blog/img/icon_wechat.png" width="0" height="0" />
+<!-- Migrate from head to bottom, no longer block render and still work -->
+
+</body>
+
+</html>
