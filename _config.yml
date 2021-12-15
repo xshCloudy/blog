@@ -185,9 +185,9 @@ kramdown:
 # reference: https://github.com/metowolf/MetingJS & https://github.com/MoePlayer/APlayer
 metingjs: true
 data-id: 8537501
-data-server: netease  
+data-server: netease
 data-type: playlist
-data-fixed: false
+data-fixed: true
   # data-mini:
   # data-autoplay:    
 
@@ -215,7 +215,7 @@ sitemap:
 deploy:
   type: git
   repository: git@github.com:xshCloudy/blog.git
-  branch: master
+  branch: static
   
 livere_uid: MTAyMC80NDc0MS8yMTI2Mg==
   
