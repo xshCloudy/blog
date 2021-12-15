@@ -11,7 +11,7 @@ timezone:
 
 # URL
 ## If your site is put in a subdirectory, set url as 'http://yoursite.com/child' and root as '/child/'
-url: https://xshcloudy.gitee.io/blog      # Note: don't forget to modify the CNAME file to your url
+url: https://xshcloudy.github.io/blog      # Note: don't forget to modify the CNAME file to your url
 root: /blog
 #permalink: :year/:month/:day/:title/
 permalink: :category/:title/
@@ -184,7 +184,7 @@ kramdown:
 # MeingJS support for Aplayer
 # reference: https://github.com/metowolf/MetingJS & https://github.com/MoePlayer/APlayer
 metingjs: true
-data-id: 8537501
+data-id: 126837556
 data-server: netease
 data-type: playlist
 data-fixed: true

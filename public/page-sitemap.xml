@@ -1,35 +1,35 @@
 <?xml version="1.0" encoding="UTF-8"?><?xml-stylesheet type="text/xsl" href="sitemap.xsl"?>
 <urlset xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1" xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd" xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
     <url>
-        <loc>https://xshcloudy.gitee.io/blog</loc>
+        <loc>https://xshcloudy.github.io/blog</loc>
         <changefreq>daily</changefreq>
         <priority>1</priority>
     </url>
     
     <url>
-        <loc>https://xshcloudy.gitee.io/blog/about/</loc>
-        <lastmod>2020-11-06T01:55:26.726Z</lastmod>
+        <loc>https://xshcloudy.github.io/blog/tags/</loc>
+        <lastmod>2021-12-15T06:10:52.441Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.8</priority>
     </url>
     
     <url>
-        <loc>https://xshcloudy.gitee.io/blog/tags/</loc>
-        <lastmod>2020-11-05T06:58:09.415Z</lastmod>
+        <loc>https://xshcloudy.github.io/blog/archive/</loc>
+        <lastmod>2021-12-15T06:10:52.316Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.8</priority>
     </url>
     
     <url>
-        <loc>https://xshcloudy.gitee.io/blog/archive/</loc>
-        <lastmod>2020-11-05T06:58:09.119Z</lastmod>
+        <loc>https://xshcloudy.github.io/blog/about/</loc>
+        <lastmod>2021-12-15T06:10:52.315Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.8</priority>
     </url>
     
     <url>
-        <loc>https://xshcloudy.gitee.io/blog/404.html</loc>
-        <lastmod>2020-11-05T06:58:09.053Z</lastmod>
+        <loc>https://xshcloudy.github.io/blog/404.html</loc>
+        <lastmod>2021-12-15T06:10:52.308Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.8</priority>
     </url>
