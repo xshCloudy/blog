@@ -2,36 +2,36 @@
 <urlset xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1" xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd" xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 
     <url>
-        <loc>https://xshcloudy.gitee.io/blog/tags/markdown/</loc>
-        <lastmod>2020-11-05T06:58:09.079Z</lastmod>
+        <loc>https://xshcloudy.github.io/blog/tags/markdown/</loc>
+        <lastmod>2021-12-15T06:10:52.311Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
     </url>
 
     <url>
-        <loc>https://xshcloudy.gitee.io/blog/tags/guitar/</loc>
-        <lastmod>2020-11-05T06:58:09.113Z</lastmod>
+        <loc>https://xshcloudy.github.io/blog/tags/seata/</loc>
+        <lastmod>2021-12-15T06:10:52.314Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
     </url>
 
     <url>
-        <loc>https://xshcloudy.gitee.io/blog/tags/java/</loc>
-        <lastmod>2020-12-04T06:23:03.257Z</lastmod>
+        <loc>https://xshcloudy.github.io/blog/tags/java/</loc>
+        <lastmod>2021-12-15T06:10:52.315Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
     </url>
 
     <url>
-        <loc>https://xshcloudy.gitee.io/blog/tags/seata/</loc>
-        <lastmod>2020-12-07T01:42:43.011Z</lastmod>
+        <loc>https://xshcloudy.github.io/blog/tags/guitar/</loc>
+        <lastmod>2021-12-15T06:10:52.315Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
     </url>
 
     <url>
-        <loc>https://xshcloudy.gitee.io/blog/tags/sentinel/</loc>
-        <lastmod>2020-12-11T05:38:31.288Z</lastmod>
+        <loc>https://xshcloudy.github.io/blog/tags/sentinel/</loc>
+        <lastmod>2021-12-15T06:10:52.315Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
     </url>
