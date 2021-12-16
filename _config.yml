@@ -184,8 +184,8 @@ kramdown:
 # MeingJS support for Aplayer
 # reference: https://github.com/metowolf/MetingJS & https://github.com/MoePlayer/APlayer
 metingjs: true
-data-id: 126837556
-data-server: netease
+data-id: 8276497203
+data-server: tencent
 data-type: playlist
 data-fixed: true
   # data-mini:
