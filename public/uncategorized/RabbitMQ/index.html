@@ -1,0 +1,566 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="keyword"  content="">
+    <link rel="shortcut icon" href="/blog/css/images/favicon.ico">
+    <!-- Place this tag in your head or just before your close body tag. -->
+    <script async defer src="https://buttons.github.io/buttons.js"></script>
+    <title>
+        
+          RabbitMQ - 肖圣豪 | Blog
+        
+    </title>
+
+    <link rel="canonical" href="https://xshcloudy.github.io/blog/blog/uncategorized/RabbitMQ/">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="../../css/bootstrap.min.css">
+
+    <!-- Custom CSS --> 
+    <link rel="stylesheet" href="../../css/beantech.min.css">
+
+    <link rel="stylesheet" href="../../css/donate.css">
+    
+    <!-- Pygments Highlight CSS -->
+    <link rel="stylesheet" href="../../css/highlight.css">
+
+    <link rel="stylesheet" href="../../css/widget.css">
+
+    <link rel="stylesheet" href="../../css/rocket.css">
+
+    <link rel="stylesheet" href="../../css/signature.css">
+
+    <link rel="stylesheet" href="../../css/toc.css">
+
+    <!-- Custom Fonts -->
+    <!-- <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css"> -->
+    <!-- Hux change font-awesome CDN to qiniu -->
+    <link href="https://cdn.staticfile.org/font-awesome/4.5.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+
+    <!-- Hux Delete, sad but pending in China
+    <link href='http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/
+    css'>
+    -->
+
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- ga & ba script hoook -->
+    <script></script>
+</head>
+
+
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="">
+	<!-- Modified by Yu-Hsuan Yen -->
+<!-- Post Header -->
+<style type="text/css">
+    header.intro-header{
+        
+            background-image: url('/blog/img/article_header/article_bg.jpg')
+            /*post*/
+        
+    }
+    
+</style>
+
+<header class="intro-header" >
+    <!-- Signature -->
+    <div id="signature">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                
+                    <div class="post-heading">
+                        <div class="tags">
+                            
+                        </div>
+                        <h1>RabbitMQ</h1>
+                        <h2 class="subheading"></h2>
+                        <span class="meta">
+                            Posted by 肖圣豪 on
+                            2021-01-02
+                        </span>
+                    </div>
+                
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+	
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/blog/">肖圣豪</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/blog/">Home</a>
+                    </li>
+
+                    
+
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/blog/about/">About</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/blog/archive/">Archives</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/blog/tags/">Tags</a>
+                        </li>
+                        
+                    
+                    
+                </ul>
+            </div>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+
+    <!-- Main Content -->
+    <!-- Modify by Yu-Hsuan Yen -->
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+
+            <!-- Post Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                post-container">
+
+                <h2 id="一rabbitmq-概念">一.RabbitMQ 概念</h2>
+<p><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">主要是用来实现应用程序的异步和解耦，同时也能起到消息缓冲，消息分发的作用;</span><br><span class="line">RabbitMQ使用的是AMQP协议，它是一种二进制协议。默认启动端口 <span class="number">5672</span></span><br></pre></td></tr></table></figure></p>
+<h2 id="二rabbitmq-模型">二.RabbitMQ 模型<img src="/blog/img/rabbitmq/1.png" alt="在这里插入图片描述"></h2>
+<p><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"> P代表消息发送者；X代表交换机exchange；orange,blank和green代表路由绑定；</span><br><span class="line"> C代表消费者。</span><br><span class="line"> rabbitmq有<span class="number">4</span>个比较重要的概念，分别为：虚拟主机（virtual-host），</span><br><span class="line"> 交换机，队列，和路由绑定。</span><br><span class="line"> </span><br><span class="line"></span><br><span class="line">- 虚拟主机：一个虚拟主机持有一组交换机、队列和绑定。</span><br><span class="line">	用户只能在虚拟主机的粒度进行权限控制。如果需要禁止A组访问B组的交换机/队列/绑定，</span><br><span class="line">	必须为A和B分别创建一个虚拟主机。每一个RabbitMQ服务器都有一个默认的虚拟主机“/”。</span><br><span class="line">- 交换机：Exchange用于转发消息，但它不会做存储，</span><br><span class="line">	如果没有Queue bind 到 Exchange 的话，它会直接丢弃掉Producer发送过来的消息。</span><br><span class="line">- 路由绑定：也就是交换机需要和队列相绑定的路由键</span><br></pre></td></tr></table></figure></p>
+<h2 id="三交换机">三.交换机</h2>
+<p><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">  rabbitmq的常用消息模型都是基于交换机的类型衍生出的</span><br><span class="line"></span><br><span class="line">- Directed Exchange</span><br><span class="line">路由键exchange，该交换机收到消息后会把消息发送到指定routing-key的queue中。</span><br><span class="line">- Default Exchange</span><br><span class="line">	这种是一种特殊的Direct Exchange，是rabbitmq内部默认的一个交换机。</span><br><span class="line">	该交换机的name是空字符串，所有queue都默认binding 到该交换机上。</span><br><span class="line">	所有binding到该交换机上的queue，routing-key都和queue的name一样  </span><br><span class="line">- Topic Exchange</span><br><span class="line">   通配符交换机，exchange会把消息发送到一个或者多个满足通配符规则的routing-key的queue。</span><br><span class="line">   其中_表号匹配一个word，#匹配多个word和路径，路径之间通过.隔开。</span><br><span class="line">   如满足a._.c的routing-key有a.hello.c；满足#.hello的routing-key有a.b.c.helo。</span><br><span class="line">- Fanout Exchange</span><br><span class="line">  扇形交换机，该交换机会把消息发送到所有binding到该交换机上的queue。</span><br><span class="line">  这种是publisher/subcribe模式。用来做广播最好。</span><br><span class="line">  所有该exchagne上指定的routing-key都会被ignore掉。</span><br><span class="line">- Header Exchange</span><br><span class="line">  设置header attribute参数类型的交换机。</span><br></pre></td></tr></table></figure></p>
+<h2 id="三rabbitmq的使用">三.rabbitmq的使用</h2>
+<p><code>1.引入依赖</code>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&lt;dependency&gt;</span><br><span class="line">          &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;</span><br><span class="line">          &lt;artifactId&gt;spring-boot-starter-amqp&lt;/artifactId&gt;</span><br><span class="line">&lt;/dependency&gt;</span><br><span class="line">版本<span class="number">2.3</span>.3.RELEASE</span><br></pre></td></tr></table></figure></p>
+<p><code>2.yaml配置</code>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">spring:</span><br><span class="line">  rabbitmq:</span><br><span class="line">    addresses: localhost:5672</span><br><span class="line">    username: admin</span><br><span class="line">    password: 123456</span><br><span class="line">    #使用发布确认模式时必须设置为true，否则消息消息路由失败也无法触发Return回调</span><br><span class="line">    publisher-returns: true</span><br><span class="line">    #NONE值是禁用发布确认模式，CORRELATED值是发布消息成功到交换器后会触发回调方法</span><br><span class="line">    publisher-confirm-type: correlated</span><br><span class="line">#    虚拟host 可以不设置,使用server默认host “/”</span><br><span class="line">#    virtual-host: momvhost</span><br><span class="line">    template:</span><br><span class="line">      # true：交换机无法将消息进行路由时，会将该消息返回给生产者（回调消息回退ReturnCallback接口）</span><br><span class="line">      # false：如果发现消息无法进行路由，则直接丢弃</span><br><span class="line">      mandatory: true</span><br><span class="line">    listener:</span><br><span class="line">      simple:</span><br><span class="line">      #none（默认开启），manual手动模式，auto 自动模式</span><br><span class="line">       acknowledge-mode: manual</span><br><span class="line">    # 消费者的最小数量</span><br><span class="line">       concurrency: 1</span><br><span class="line">    # 消费者的最大数量</span><br><span class="line">       max-concurrency: 1</span><br><span class="line">    # 是否支持重试</span><br><span class="line">    	#业务代码抛异常，消费端会重试，业务代码一般会try catch异常，禁止重试</span><br><span class="line">       retry:</span><br><span class="line">        enabled: true</span><br></pre></td></tr></table></figure></p>
+<p><code>3.config配置</code>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br></pre></td><td class="code"><pre><span class="line">@Slf4j</span><br><span class="line">@Configuration</span><br><span class="line">public class AmqpConfig &#123;</span><br><span class="line">    @Autowired</span><br><span class="line">    private RabbitTemplate rabbitTemplate;</span><br><span class="line">    @Autowired</span><br><span class="line">    private IMesMfMqRecordService mesMfMqRecordService;</span><br><span class="line"></span><br><span class="line">    @PostConstruct</span><br><span class="line">    public void init() &#123;</span><br><span class="line">        //确认是否发到交换机</span><br><span class="line">        rabbitTemplate.setConfirmCallback((correlationData, ack, cause) -&gt; &#123;</span><br><span class="line">            if (!ack) &#123;</span><br><span class="line">                sendErrorMsgToOA(correlationData.getId(), "消息未成功发送至交换机！");</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;);</span><br><span class="line">        // 确认是否发到队列，若没有则调用下面方法</span><br><span class="line">        rabbitTemplate.setReturnCallback((message, replyCode, replyText, exchange, routingKey) -&gt; &#123;</span><br><span class="line">            MessageProperties messageProperties = message.getMessageProperties();</span><br><span class="line">            printErrorMsg(messageProperties.getMessageId(), "消息未成功发送至队列！");</span><br><span class="line">        &#125;);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    private void printErrorMsg(String messageId, String content) &#123;</span><br><span class="line">        LambdaUpdateWrapper&lt;MesMfMqRecord&gt; wrapper = Wrappers.lambdaUpdate();</span><br><span class="line">        wrapper.eq(MesMfMqRecord::getDataId, messageId)</span><br><span class="line">                .set(MesMfMqRecord::getFailReason, content)</span><br><span class="line">                .set(MesMfMqRecord::getResult, "fail");</span><br><span class="line">        mesMfMqRecordService.update(wrapper);</span><br><span class="line">        JSONObject object = new JSONObject();</span><br><span class="line">        object.put("sender", "XXX");</span><br><span class="line">        object.put("receiver", "OOO");</span><br><span class="line">        object.put("executor", "XXX");</span><br><span class="line">        object.put("execute_time", BusDateUtil.getNow());</span><br><span class="line">        object.put("data_code", messageId);</span><br><span class="line">        object.put("content", content);</span><br><span class="line">        log.info("消息发送失败，发送失败消息给OA：&#123;&#125;", JSONObject.toJSONString(object));</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">  </span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    @Bean("testQueue")</span><br><span class="line">    public Queue testQueue() &#123;</span><br><span class="line">        return new Queue("MQ.mes.erp.save.test");</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Bean("testExchange")</span><br><span class="line">    DirectExchange testExchange() &#123;</span><br><span class="line">        return new DirectExchange("EX.mes.save.test");</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Bean("testBinding")</span><br><span class="line">    Binding testBinding(@Qualifier("testQueue") Queue queue, @Qualifier("testExchange") DirectExchange exchange) &#123;</span><br><span class="line">        return BindingBuilder.bind(queue).to(exchange).with("RK.mes.save.test");</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure></p>
+<p><code>3.消息生产者代码</code>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">String uuid = UUID.randomUUID().toString();</span><br><span class="line">MessageProperties messageProperties = new MessageProperties();</span><br><span class="line">messageProperties.setMessageId(uuid);</span><br><span class="line">Message message = new Message(msg.getBytes(), messageProperties);</span><br><span class="line">CorrelationData correlationData = new CorrelationData();</span><br><span class="line">correlationData.setId(uuid);</span><br><span class="line">correlationData.setReturnedMessage(message);</span><br><span class="line">rabbitTemplate.convertAndSend(ex, rk, message, correlationData);</span><br></pre></td></tr></table></figure></p>
+<p><code>3.消息消费端代码</code>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"> </span><br><span class="line">@Slf4j</span><br><span class="line">@Component</span><br><span class="line">public class TestListener &#123;</span><br><span class="line">    @AmqpLog(bizType = "test", producer = "XXX", consumer = "OOO")</span><br><span class="line">    @RabbitListener(bindings = @QueueBinding(</span><br><span class="line">            value = @Queue(value = "MQ.mes.erp.save.test"),</span><br><span class="line">            exchange = @Exchange(value = "EX.mes.save.test"),</span><br><span class="line">            key = "RK.mes.save.test"))</span><br><span class="line">    @RabbitHandler</span><br><span class="line">    public void handleMessage(Message msg, Channel channel) &#123;</span><br><span class="line">        log.info("ProductionListener接收到queue消息：&#123;&#125;", msg == null ? "" : new String(msg.getBody()));</span><br><span class="line">        try &#123;</span><br><span class="line">            //消息确认，false表示只确认当次消息，true表示批量确认ID小于等于当次ID的所有消息</span><br><span class="line">            channel.basicAck(msg.getMessageProperties().getDeliveryTag(), false);</span><br><span class="line">        &#125; catch (Exception e) &#123;</span><br><span class="line">            log.error("ProductionListener.handleMessage error1", e);</span><br><span class="line">            try &#123;</span><br><span class="line">                //消息拒绝，false表示直接抛弃，true表示重新放入队列,每次重启服务会重新消费消息</span><br><span class="line">                channel.basicReject(msg.getMessageProperties().getDeliveryTag(), false);</span><br><span class="line">            &#125; catch (IOException e1) &#123;</span><br><span class="line">                log.error("ProductionListener.handleMessage error2", e1);</span><br><span class="line">                throw new SystemException(new MesResultCustomCode(500, e1.getMessage()));</span><br><span class="line">            &#125;</span><br><span class="line">            throw new SystemException(new MesResultCustomCode(500, e.getMessage()));</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h2 id="三rabbitmq如何防止消息丢失">三.rabbitmq如何防止消息丢失</h2>
+<p><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">- 生产端开启发布确认模式</span><br><span class="line">	因为网络传输的不稳定性,生产端有两种场景会丢失消息，</span><br><span class="line">	一种是消息未成功发送至交换机，另外一种是未成功将消息发送至队列。</span><br><span class="line">	生产端开启发布确认模式，如上面config配置中，</span><br><span class="line">	配置publisher-returns: true，publisher-confirm-type: correlated，template.mandatory: true。</span><br><span class="line">	消息是否成功发送至交换机可以在ConfirmCallback接口中判断，</span><br><span class="line">	消息未成功发送至队列将会回调ReturnCallback接口。</span><br><span class="line">	在这两个接口中统一处理这两种消息丢失的场景即可！</span><br><span class="line">- 消费端开启手动确认机制</span><br><span class="line">消费端开启手动确认机制，如上面config配置中，</span><br><span class="line">配置listener.simple.acknowledge-mode: manual，</span><br><span class="line">在业务代码中手动ack</span><br><span class="line">- 开启队列的持久化</span><br><span class="line">   生产者把消息成功写入队列之后，把消息持久化到磁盘</span><br></pre></td></tr></table></figure></p>
+<h2 id="三rabbitmq如何消息重复消费">三.rabbitmq如何消息重复消费</h2>
+<p><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">生产端发消息的时候，给每一条业务消息赋值一个唯一的ID,如上述代码，</span><br><span class="line">生产端在MessageProperties的messageId赋值了一个唯一ID，</span><br><span class="line">消息接收方根据这个ID去在日志表中查询判断是否有重复消费。</span><br></pre></td></tr></table></figure></p>
+
+                
+
+                <hr>
+                <!-- Pager -->
+                <ul class="pager">
+                    
+                    
+                        <li class="next">
+                            <a href="/blog/uncategorized/用Sentinel做限流、熔断和降级/" data-toggle="tooltip" data-placement="top" title="用Sentinel做限流、熔断和降级">Next Post &rarr;</a>
+                        </li>
+                    
+                </ul>
+
+                <br>
+
+                <!--打赏-->
+                
+                    <div class="reward">
+                        <div class="reward-button">赏 <span class="reward-code"> 
+                            <span class="alipay-code"> <img class="alipay-img" src="/blog/css/images/zfb.JPG"><b>支付宝打赏</b></span> 
+                            <span class="wechat-code"> <img class="wechat-img" src="/blog/css/images/wx.JPG"><b>微信打赏</b> </span>
+                            </span></div>
+                        <p class="reward-notice">赞赏一下</p>
+                    </div>
+                
+                <!--打赏-->
+
+                <br>
+                <!--分享-->
+                
+                    <div class="social-share"  data-wechat-qrcode-helper="" align="center"></div>
+                    <!--  css & js -->
+                    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/social-share.js/1.0.16/css/share.min.css">
+                    <script src="https://cdnjs.cloudflare.com/ajax/libs/social-share.js/1.0.16/js/social-share.min.js"></script>
+                
+                <!--分享-->
+                <br>                       
+                
+                <!-- require APlayer -->
+                
+                <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aplayer@1.10/dist/APlayer.min.css">
+                <script src="https://cdn.jsdelivr.net/npm/aplayer@1.10/dist/APlayer.min.js"></script>
+                <script src="https://cdn.jsdelivr.net/npm/meting@1.2/dist/Meting.min.js"></script>
+
+                <div class="aplayer"
+                    data-id="7619171629"
+                    data-server="netease"
+                    data-type="playlist"
+                    data-fixed="true" >
+                </div>
+                
+
+                <!-- duoshuo Share start -->
+                
+                <!-- 多说 Share end-->
+
+                <!-- 多说评论框 start -->
+                
+                <!-- 多说评论框 end -->
+
+                <!-- disqus comment start -->
+                
+                <!-- disqus comment end -->
+
+                
+                    <!-- disqus 评论框 start -->
+                    <div class="comment">
+                        <div id="lv-container" data-id="city" data-uid="MTAyMC80NDc0MS8yMTI2Mg=="></div>
+                    </div>
+                    <!-- disqus 评论框 end -->
+                
+
+            </div>
+            
+            <!-- Tabe of Content -->
+            <!-- Table of Contents -->
+
+  
+    <style>
+      span.toc-nav-number{
+        display: none
+      }
+    </style>
+  
+    
+      <aside id="sidebar">
+        <div id="toc" class="toc-article">
+        <strong class="toc-title">Contents</strong>
+        
+          <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#一rabbitmq-概念"><span class="toc-nav-number">1.</span> <span class="toc-nav-text">&#x4E00;.RabbitMQ &#x6982;&#x5FF5;</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#二rabbitmq-模型"><span class="toc-nav-number">2.</span> <span class="toc-nav-text">&#x4E8C;.RabbitMQ &#x6A21;&#x578B;<img src="/blog/img/rabbitmq/1.png" alt="&#x5728;&#x8FD9;&#x91CC;&#x63D2;&#x5165;&#x56FE;&#x7247;&#x63CF;&#x8FF0;"></span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#三交换机"><span class="toc-nav-number">3.</span> <span class="toc-nav-text">&#x4E09;.&#x4EA4;&#x6362;&#x673A;</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#三rabbitmq的使用"><span class="toc-nav-number">4.</span> <span class="toc-nav-text">&#x4E09;.rabbitmq&#x7684;&#x4F7F;&#x7528;</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#三rabbitmq如何防止消息丢失"><span class="toc-nav-number">5.</span> <span class="toc-nav-text">&#x4E09;.rabbitmq&#x5982;&#x4F55;&#x9632;&#x6B62;&#x6D88;&#x606F;&#x4E22;&#x5931;</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#三rabbitmq如何消息重复消费"><span class="toc-nav-number">6.</span> <span class="toc-nav-text">&#x4E09;.rabbitmq&#x5982;&#x4F55;&#x6D88;&#x606F;&#x91CD;&#x590D;&#x6D88;&#x8D39;</span></a></li></ol>
+        
+        </div>
+      </aside>
+    
+ 
+             
+            <!-- Sidebar Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+                <section>
+                    <!-- no hr -->
+                    <h5><a href="/blog/tags/">FEATURED TAGS</a></h5>
+                    <div class="tags">
+                       
+                    </div>
+                </section>
+                
+
+                <!-- Friends Blog -->
+                
+                <hr>
+                <h5>FRIENDS</h5>
+                <ul class="list-inline">
+
+                    
+                        <li><a href="http://valten.gitee.io/blog/" target="_blank">黄boy’s blog</a></li>
+                    
+                </ul>
+                
+            </div>
+        </div>
+    </div>
+</article>
+
+
+
+
+
+
+    <!-- 来必力City版公共JS代码 start (一个网页只需插入一次) -->
+    <script type="text/javascript">
+       (function(d, s) {
+           var j, e = d.getElementsByTagName(s)[0];
+    
+           if (typeof LivereTower === 'function') { return; }
+    
+           j = d.createElement(s);
+           j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+           j.async = true;
+    
+           e.parentNode.insertBefore(j, e);
+       })(document, 'script');
+    </script>
+    <noscript>为正常使用来必力评论功能请激活JavaScript</noscript>
+    <!-- 来必力City版 公共JS代码 end -->
+
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+<!-- anchor-js, Doc:http://bryanbraun.github.io/anchorjs/ -->
+<script>
+    async("https://cdn.bootcss.com/anchor-js/1.1.1/anchor.min.js",function(){
+        anchors.options = {
+          visible: 'hover',
+          placement: 'left',
+          icon: 'ℬ'
+        };
+        anchors.add().remove('.intro-header h1').remove('.subheading').remove('.sidebar-container h5');
+    })
+</script>
+<style>
+    /* place left on bigger screen */
+    @media all and (min-width: 800px) {
+        .anchorjs-link{
+            position: absolute;
+            left: -0.75em;
+            font-size: 1.1em;
+            margin-top : -0.1em;
+        }
+    }
+</style>
+
+
+
+    <!-- Footer -->
+    <!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                
+                
+                
+
+                
+
+                
+
+                
+                    <li>
+                        <a target="_blank"  href="https://github.com/xshCloudy">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; 肖圣豪 2022 
+                    <br>
+                    备案号：<a href="http://www.miitbeian.gov.cn/" target="_blank">鄂ICP备19004060号-1</a>
+                    <span style="display: inline-block; margin: 0 5px;">
+                        <i class="fa fa-heart"></i>
+                    </span> 
+                    Theme by <a href="http://beantech.org">BeanTech</a>
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="../../js/jquery.min.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="../../js/bootstrap.min.js"></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="../../js/hux-blog.min.js"></script>
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- 
+     Because of the native support for backtick-style fenced code blocks 
+     right within the Markdown is landed in Github Pages, 
+     From V1.6, There is no need for Highlight.js, 
+     so Huxblog drops it officially.
+
+     - https://github.com/blog/2100-github-pages-now-faster-and-simpler-with-jekyll-3-0  
+     - https://help.github.com/articles/creating-and-highlighting-code-blocks/    
+-->
+<!--
+    <script>
+        async("http://cdn.bootcss.com/highlight.js/8.6/highlight.min.js", function(){
+            hljs.initHighlightingOnLoad();
+        })
+    </script>
+    <link href="http://cdn.bootcss.com/highlight.js/8.6/styles/github.min.css" rel="stylesheet">
+-->
+
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("https://xshcloudy.github.io/blog/blog/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("https://cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+
+<!-- Google Analytics -->
+
+
+
+
+<!-- Baidu Tongji -->
+
+<script>
+    // dynamic User by Hux
+    var _baId = '2faf9f28f3f4a1bb030c9f2766925df7';
+
+    // Originial
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?" + _baId;
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+</script>
+
+
+
+
+
+
+	<a id="rocket" href="#top" class=""></a>
+	<script type="text/javascript" src="/js/totop.js?v=1.0.0" async=""></script>
+    <script type="text/javascript" src="/js/toc.js?v=1.0.0" async=""></script>
+<!-- Image to hack wechat -->
+<img src="https://xshcloudy.github.io/blog/blog/img/icon_wechat.png" width="0" height="0" />
+<!-- Migrate from head to bottom, no longer block render and still work -->
+
+</body>
+
+</html>

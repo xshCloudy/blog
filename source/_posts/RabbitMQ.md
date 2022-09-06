@@ -1,5 +1,5 @@
 ---
-title: '''RabbitMQ'''
+title: RabbitMQ
 catalog: true
 date: 2021-01-02 19:12:13
 subtitle:
@@ -169,7 +169,7 @@ public class AmqpConfig {
 @Slf4j
 @Component
 public class TestListener {
-    @AmqpLog(bizType = "test", producer = "NCC", consumer = "MES")
+    @AmqpLog(bizType = "test", producer = "XXX", consumer = "OOO")
     @RabbitListener(bindings = @QueueBinding(
             value = @Queue(value = "MQ.mes.erp.save.test"),
             exchange = @Exchange(value = "EX.mes.save.test"),
