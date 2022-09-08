@@ -140,6 +140,13 @@
 
                         
                         <li>
+                            <a href="/blog/about/">About</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
                             <a href="/blog/archive/">Archives</a>
                         </li>
                         
@@ -148,13 +155,6 @@
                         
                         <li>
                             <a href="/blog/tags/">Tags</a>
-                        </li>
-                        
-                    
-
-                        
-                        <li>
-                            <a href="/blog/about/">About</a>
                         </li>
                         
                     
@@ -223,7 +223,7 @@
 <p><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Configuration</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MybatisPlusConfig</span> </span>&#123;</span><br><span class="line">    <span class="meta">@Autowired</span>(required = <span class="keyword">false</span>)</span><br><span class="line">    <span class="keyword">private</span> IDataBind dataBind;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">MybatisPlusConfig</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Bean</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> ConfigurationCustomizer <span class="title">mybatisConfigurationCustomizer</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> configuration -&gt; configuration.addInterceptor(<span class="keyword">new</span> FieldBindInterceptor(dataBind));</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
 <h2 id="如何使用">如何使用</h2>
 <p><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Data</span></span><br><span class="line"><span class="meta">@EqualsAndHashCode</span>(callSuper = <span class="keyword">true</span>)</span><br><span class="line"><span class="meta">@TableName</span>(<span class="string">"student"</span>)</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Student</span> <span class="keyword">extends</span> <span class="title">BaseEntity</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@TableField</span>(<span class="string">"name"</span>)</span><br><span class="line">    <span class="keyword">private</span> String name;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@FieldBind</span>(type = <span class="string">"sex"</span>, target = <span class="string">"sexText"</span>)</span><br><span class="line">    <span class="meta">@TableField</span>(<span class="string">"sex"</span>)</span><br><span class="line">    <span class="keyword">private</span> String sex;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@TableField</span>(exist = <span class="keyword">false</span>)</span><br><span class="line">    <span class="keyword">private</span> String sexText;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p><img src="/blog/img/dict/1.jpg" alt="在这里插入图片描述"></p>
+<p><img src="/blog/img/dictionary/1.jpg" alt="在这里插入图片描述"></p>
 <p><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">如上图，性别sex有两个字典，我们在sex字段上加了一个注解<span class="meta">@FieldBind</span>, type=<span class="string">'sex'</span>,target = <span class="string">'sexText'</span></span><br><span class="line">表示会去数据库字典表查询type=<span class="string">'sex'</span>，字典code（item_code）为字段sex值的字典，将字典的值(item_desc)</span><br><span class="line">赋值给sexText字典</span><br></pre></td></tr></table></figure></p>
 
                 

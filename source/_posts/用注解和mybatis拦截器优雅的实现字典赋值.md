@@ -230,6 +230,7 @@ public class MybatisPlusConfig {
    
 ```
 ![在这里插入图片描述](/blog/img/dictionary/1.jpg)
+![在这里插入图片描述](/blog/img/dictionary/1.jpg)
 
 ```java
 如上图，性别sex有两个字典，我们在sex字段上加了一个注解@FieldBind, type='sex',target = 'sexText'
