@@ -1,0 +1,571 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="keyword"  content="">
+    <link rel="shortcut icon" href="/blog/css/images/favicon.ico">
+    <!-- Place this tag in your head or just before your close body tag. -->
+    <script async defer src="https://buttons.github.io/buttons.js"></script>
+    <title>
+        
+          JVM类加载机制 - 肖圣豪 | Blog
+        
+    </title>
+
+    <link rel="canonical" href="https://xshcloudy.github.io/blog/blog/uncategorized/JVM类加载机制/">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="../../css/bootstrap.min.css">
+
+    <!-- Custom CSS --> 
+    <link rel="stylesheet" href="../../css/beantech.min.css">
+
+    <link rel="stylesheet" href="../../css/donate.css">
+    
+    <!-- Pygments Highlight CSS -->
+    <link rel="stylesheet" href="../../css/highlight.css">
+
+    <link rel="stylesheet" href="../../css/widget.css">
+
+    <link rel="stylesheet" href="../../css/rocket.css">
+
+    <link rel="stylesheet" href="../../css/signature.css">
+
+    <link rel="stylesheet" href="../../css/toc.css">
+
+    <!-- Custom Fonts -->
+    <!-- <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css"> -->
+    <!-- Hux change font-awesome CDN to qiniu -->
+    <link href="https://cdn.staticfile.org/font-awesome/4.5.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+
+    <!-- Hux Delete, sad but pending in China
+    <link href='http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/
+    css'>
+    -->
+
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- ga & ba script hoook -->
+    <script></script>
+</head>
+
+
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="">
+	<!-- Modified by Yu-Hsuan Yen -->
+<!-- Post Header -->
+<style type="text/css">
+    header.intro-header{
+        
+            background-image: url('/blog/img/article_header/article_bg.jpg')
+            /*post*/
+        
+    }
+    
+</style>
+
+<header class="intro-header" >
+    <!-- Signature -->
+    <div id="signature">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                
+                    <div class="post-heading">
+                        <div class="tags">
+                            
+                        </div>
+                        <h1>JVM类加载机制</h1>
+                        <h2 class="subheading"></h2>
+                        <span class="meta">
+                            Posted by 肖圣豪 on
+                            2021-02-19
+                        </span>
+                    </div>
+                
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+	
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/blog/">肖圣豪</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/blog/">Home</a>
+                    </li>
+
+                    
+
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/blog/about/">About</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/blog/archive/">Archives</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/blog/tags/">Tags</a>
+                        </li>
+                        
+                    
+                    
+                </ul>
+            </div>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+
+    <!-- Main Content -->
+    <!-- Modify by Yu-Hsuan Yen -->
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+
+            <!-- Post Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                post-container">
+
+                <h2 id="一类的加载">一.类的加载</h2>
+<p><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Java源代码经过编译器生成字节码文件（.class），字节码文件与平台无关，不面向任何具体平台，只面向虚拟机。</span><br><span class="line">类的加载是指JVM把编译后的.class类文件的二进制数据读取到内存中，并根据它创建一个Class对象，</span><br><span class="line">存放在堆中。</span><br></pre></td></tr></table></figure></p>
+<h2 id="二类的生命周期">二.类的生命周期</h2>
+<p><img src="/blog/img/jvm_classloader/1.jpg" alt="在这里插入图片描述">
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">包括：加载，连接，初始化，使用，卸载。这里我们重点讨论的是加载机制。</span><br></pre></td></tr></table></figure></p>
+<h2 id="三类加载结构">三.类加载结构</h2>
+<p><img src="/blog/img/jvm_classloader/2.jpg" alt="在这里插入图片描述">
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">类的加载过程中有三个自带的类加载器和一个自定义类加载器</span><br></pre></td></tr></table></figure></p>
+<h4 id="bootstrap-classloader">Bootstrap ClassLoader：</h4>
+<p><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">基于C/C++实现，负责加载Java的核心类库JAVA_HOME\jre\lib\rt.jar，</span><br><span class="line">该加载器不继承自ClassLoader抽象类，并且只加载包名为java、javax、sun等开头类，</span><br><span class="line">起到对核心源码的保护作用。</span><br></pre></td></tr></table></figure></p>
+<h4 id="extension-classloader">Extension ClassLoader：</h4>
+<p><img src="/blog/img/jvm_classloader/3.jpg" alt="在这里插入图片描述">
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">基于Java语言，由sun.misc.Launcher$ExtClassLoader实现，派生于ClassLoader抽象类，</span><br><span class="line">从java.ext.dirs系统变量指定的路径中的加载类库，或者JDK安装目录jre\lib\ext目录下加载</span><br></pre></td></tr></table></figure></p>
+<h4 id="application-classloader">Application ClassLoader：</h4>
+<p><img src="/blog/img/jvm_classloader/4.jpg" alt="在这里插入图片描述">
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">基于Java语言，由sun.misc.Launcher$AppClassLoader实现，它负责加载环境变量ClassPath指定的类库，</span><br><span class="line">如果在应用程序中没有自定义类加载器，一般情况下作为程序中默认的类加载器。</span><br></pre></td></tr></table></figure></p>
+<h4 id="自定义-classloader">自定义 ClassLoader：</h4>
+<p><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">通过继承java.lang.ClassLoader实现自定义的类加载器。</span><br></pre></td></tr></table></figure></p>
+<h2 id="四双亲委派">四.双亲委派</h2>
+<p><img src="/blog/img/jvm_classloader/5.jpg" alt="在这里插入图片描述"></p>
+<h4 id="机制">机制：</h4>
+<p><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">当一个类收到了类加载请求，类加载会由最底下的自定义加载器开始，将加载请求委派给上级，</span><br><span class="line">如果上级已经加载过该类，则直接加载完成，如果没有则继续递归至顶级Bootstrap加载器，</span><br><span class="line">然后父类判断如果该类不属于自己的加载范畴则委派子类加载。继续往下递归。</span><br></pre></td></tr></table></figure></p>
+<h4 id="目的">目的：</h4>
+<p><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">安全：</span><br><span class="line">自己写的java.lang.String.class类不会被加载(包名和类名和jdk自带的一样 运行不成功)，</span><br><span class="line">这样便可以防止核心API库被随意篡改(自己在自定义类加载器里面要加载java.lang....</span><br><span class="line">类似于和核心包里面系统的包名称 jvm直接报一个安全异常) </span><br><span class="line">jvm加载到和自己核心类库里面相同的类必须用自己类库里面的类。</span><br><span class="line"></span><br><span class="line">避免重复加载：</span><br><span class="line">当父亲已经加载了该类时，就没有必要子ClassLoader再加载一次(父类就直接返回了)，</span><br><span class="line">保证被加载类的唯一性(相同包名类名只加载一份)。</span><br></pre></td></tr></table></figure></p>
+<h4 id="缺陷">缺陷</h4>
+<p><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">双亲模型固然有着优点，能够让整个系统保持了类的唯一性。但在有些场合，却不适合。</span><br><span class="line">顶层的启动类加载器的代码无法访问到底层的类加载器。如 rt.jar 无法中代码无法访问到应用类加载器。</span><br><span class="line"></span><br><span class="line">你肯定要问，为什么需要访问呢？</span><br><span class="line">在 Java 平台中，把核心类（rt.jar)中提供外部服务，可由应用层自行实现的接口，</span><br><span class="line"></span><br><span class="line">比如rt.jar 中的抽象类需要加载继承他们的在应用层的子类实现，目前的双亲机制是无法实现的。</span><br><span class="line">因此 JDK 引用了一个不太优雅的设计，上下文类加载器。也就是讲类加载放在线程上下文变量中。</span><br><span class="line">通过 Thread.getContextClassLoader()， Thread.setContextClassLoader(ClassLoader) </span><br><span class="line">这两个方法获取和设置 ClassLoader，这样，rt.jar 中的代码就可以获取到底层的类加载了。</span><br></pre></td></tr></table></figure></p>
+
+                
+
+                <hr>
+                <!-- Pager -->
+                <ul class="pager">
+                    
+                    
+                        <li class="next">
+                            <a href="/blog/uncategorized/用注解和mybatis拦截器优雅的实现字典赋值/" data-toggle="tooltip" data-placement="top" title="用注解和mybatis拦截器优雅的实现字典赋值">Next Post &rarr;</a>
+                        </li>
+                    
+                </ul>
+
+                <br>
+
+                <!--打赏-->
+                
+                    <div class="reward">
+                        <div class="reward-button">赏 <span class="reward-code"> 
+                            <span class="alipay-code"> <img class="alipay-img" src="/blog/css/images/zfb.JPG"><b>支付宝打赏</b></span> 
+                            <span class="wechat-code"> <img class="wechat-img" src="/blog/css/images/wx.JPG"><b>微信打赏</b> </span>
+                            </span></div>
+                        <p class="reward-notice">赞赏一下</p>
+                    </div>
+                
+                <!--打赏-->
+
+                <br>
+                <!--分享-->
+                
+                    <div class="social-share"  data-wechat-qrcode-helper="" align="center"></div>
+                    <!--  css & js -->
+                    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/social-share.js/1.0.16/css/share.min.css">
+                    <script src="https://cdnjs.cloudflare.com/ajax/libs/social-share.js/1.0.16/js/social-share.min.js"></script>
+                
+                <!--分享-->
+                <br>                       
+                
+                <!-- require APlayer -->
+                
+                <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aplayer@1.10/dist/APlayer.min.css">
+                <script src="https://cdn.jsdelivr.net/npm/aplayer@1.10/dist/APlayer.min.js"></script>
+                <script src="https://cdn.jsdelivr.net/npm/meting@1.2/dist/Meting.min.js"></script>
+
+                <div class="aplayer"
+                    data-id="7619171629"
+                    data-server="netease"
+                    data-type="playlist"
+                    data-fixed="true" >
+                </div>
+                
+
+                <!-- duoshuo Share start -->
+                
+                <!-- 多说 Share end-->
+
+                <!-- 多说评论框 start -->
+                
+                <!-- 多说评论框 end -->
+
+                <!-- disqus comment start -->
+                
+                <!-- disqus comment end -->
+
+                
+                    <!-- disqus 评论框 start -->
+                    <div class="comment">
+                        <div id="lv-container" data-id="city" data-uid="MTAyMC80NDc0MS8yMTI2Mg=="></div>
+                    </div>
+                    <!-- disqus 评论框 end -->
+                
+
+            </div>
+            
+            <!-- Tabe of Content -->
+            <!-- Table of Contents -->
+
+  
+    <style>
+      span.toc-nav-number{
+        display: none
+      }
+    </style>
+  
+    
+      <aside id="sidebar">
+        <div id="toc" class="toc-article">
+        <strong class="toc-title">Contents</strong>
+        
+          <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#一类的加载"><span class="toc-nav-number">1.</span> <span class="toc-nav-text">&#x4E00;.&#x7C7B;&#x7684;&#x52A0;&#x8F7D;</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#二类的生命周期"><span class="toc-nav-number">2.</span> <span class="toc-nav-text">&#x4E8C;.&#x7C7B;&#x7684;&#x751F;&#x547D;&#x5468;&#x671F;</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#三类加载结构"><span class="toc-nav-number">3.</span> <span class="toc-nav-text">&#x4E09;.&#x7C7B;&#x52A0;&#x8F7D;&#x7ED3;&#x6784;</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#bootstrap-classloader"><span class="toc-nav-number">3.0.1.</span> <span class="toc-nav-text">Bootstrap ClassLoader&#xFF1A;</span></a></li><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#extension-classloader"><span class="toc-nav-number">3.0.2.</span> <span class="toc-nav-text">Extension ClassLoader&#xFF1A;</span></a></li><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#application-classloader"><span class="toc-nav-number">3.0.3.</span> <span class="toc-nav-text">Application ClassLoader&#xFF1A;</span></a></li><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#自定义-classloader"><span class="toc-nav-number">3.0.4.</span> <span class="toc-nav-text">&#x81EA;&#x5B9A;&#x4E49; ClassLoader&#xFF1A;</span></a></li></ol></li></ol></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#四双亲委派"><span class="toc-nav-number">4.</span> <span class="toc-nav-text">&#x56DB;.&#x53CC;&#x4EB2;&#x59D4;&#x6D3E;</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#机制"><span class="toc-nav-number">4.0.1.</span> <span class="toc-nav-text">&#x673A;&#x5236;&#xFF1A;</span></a></li><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#目的"><span class="toc-nav-number">4.0.2.</span> <span class="toc-nav-text">&#x76EE;&#x7684;&#xFF1A;</span></a></li><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#缺陷"><span class="toc-nav-number">4.0.3.</span> <span class="toc-nav-text">&#x7F3A;&#x9677;</span></a></li></ol></li></ol></li></ol>
+        
+        </div>
+      </aside>
+    
+ 
+             
+            <!-- Sidebar Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+                <section>
+                    <!-- no hr -->
+                    <h5><a href="/blog/tags/">FEATURED TAGS</a></h5>
+                    <div class="tags">
+                       
+                    </div>
+                </section>
+                
+
+                <!-- Friends Blog -->
+                
+                <hr>
+                <h5>FRIENDS</h5>
+                <ul class="list-inline">
+
+                    
+                        <li><a href="http://valten.gitee.io/blog/" target="_blank">黄boy’s blog</a></li>
+                    
+                </ul>
+                
+            </div>
+        </div>
+    </div>
+</article>
+
+
+
+
+
+
+    <!-- 来必力City版公共JS代码 start (一个网页只需插入一次) -->
+    <script type="text/javascript">
+       (function(d, s) {
+           var j, e = d.getElementsByTagName(s)[0];
+    
+           if (typeof LivereTower === 'function') { return; }
+    
+           j = d.createElement(s);
+           j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+           j.async = true;
+    
+           e.parentNode.insertBefore(j, e);
+       })(document, 'script');
+    </script>
+    <noscript>为正常使用来必力评论功能请激活JavaScript</noscript>
+    <!-- 来必力City版 公共JS代码 end -->
+
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+<!-- anchor-js, Doc:http://bryanbraun.github.io/anchorjs/ -->
+<script>
+    async("https://cdn.bootcss.com/anchor-js/1.1.1/anchor.min.js",function(){
+        anchors.options = {
+          visible: 'hover',
+          placement: 'left',
+          icon: 'ℬ'
+        };
+        anchors.add().remove('.intro-header h1').remove('.subheading').remove('.sidebar-container h5');
+    })
+</script>
+<style>
+    /* place left on bigger screen */
+    @media all and (min-width: 800px) {
+        .anchorjs-link{
+            position: absolute;
+            left: -0.75em;
+            font-size: 1.1em;
+            margin-top : -0.1em;
+        }
+    }
+</style>
+
+
+
+    <!-- Footer -->
+    <!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                
+                
+                
+
+                
+
+                
+
+                
+                    <li>
+                        <a target="_blank"  href="https://github.com/xshCloudy">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; 肖圣豪 2022 
+                    <br>
+                    备案号：<a href="http://www.miitbeian.gov.cn/" target="_blank">鄂ICP备19004060号-1</a>
+                    <span style="display: inline-block; margin: 0 5px;">
+                        <i class="fa fa-heart"></i>
+                    </span> 
+                    Theme by <a href="http://beantech.org">BeanTech</a>
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="../../js/jquery.min.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="../../js/bootstrap.min.js"></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="../../js/hux-blog.min.js"></script>
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- 
+     Because of the native support for backtick-style fenced code blocks 
+     right within the Markdown is landed in Github Pages, 
+     From V1.6, There is no need for Highlight.js, 
+     so Huxblog drops it officially.
+
+     - https://github.com/blog/2100-github-pages-now-faster-and-simpler-with-jekyll-3-0  
+     - https://help.github.com/articles/creating-and-highlighting-code-blocks/    
+-->
+<!--
+    <script>
+        async("http://cdn.bootcss.com/highlight.js/8.6/highlight.min.js", function(){
+            hljs.initHighlightingOnLoad();
+        })
+    </script>
+    <link href="http://cdn.bootcss.com/highlight.js/8.6/styles/github.min.css" rel="stylesheet">
+-->
+
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("https://xshcloudy.github.io/blog/blog/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("https://cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+
+<!-- Google Analytics -->
+
+
+
+
+<!-- Baidu Tongji -->
+
+<script>
+    // dynamic User by Hux
+    var _baId = '2faf9f28f3f4a1bb030c9f2766925df7';
+
+    // Originial
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?" + _baId;
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+</script>
+
+
+
+
+
+
+	<a id="rocket" href="#top" class=""></a>
+	<script type="text/javascript" src="/js/totop.js?v=1.0.0" async=""></script>
+    <script type="text/javascript" src="/js/toc.js?v=1.0.0" async=""></script>
+<!-- Image to hack wechat -->
+<img src="https://xshcloudy.github.io/blog/blog/img/icon_wechat.png" width="0" height="0" />
+<!-- Migrate from head to bottom, no longer block render and still work -->
+
+</body>
+
+</html>
