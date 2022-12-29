@@ -147,14 +147,14 @@
 
                         
                         <li>
-                            <a href="/blog/archive/">Archives</a>
+                            <a href="/blog/tags/">Tags</a>
                         </li>
                         
                     
 
                         
                         <li>
-                            <a href="/blog/tags/">Tags</a>
+                            <a href="/blog/archive/">Archives</a>
                         </li>
                         
                     
@@ -227,7 +227,7 @@
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">如图执行完docker run 命令之后即可用docker ps 查看当前服务器正在运行状态的容器</span><br><span class="line">docker ps -a 查看当前服务器所有状态的容器</span><br></pre></td></tr></table></figure></p>
 <h2 id="四进入容器查看日志">四.进入容器查看日志</h2>
 <p><img src="/blog/img/docker/3.jpg" alt="在这里插入图片描述">
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">linux 进入容器：docker exec -it 容器id  /bin/bash</span><br><span class="line">windows进入容器: winpty docker exec -it nginx-test bash</span><br><span class="line">退出容器:exit </span><br><span class="line">如上图，即可在容器内看到demo项目的运行日志</span><br></pre></td></tr></table></figure></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">linux 进入容器：docker exec -it 容器id  /bin/bash</span><br><span class="line">windows进入容器: winpty docker exec -it nginx-test bash</span><br><span class="line">退出容器:exit </span><br><span class="line">如上图，即可在容器内看到demo项目的运行日志</span><br><span class="line"></span><br><span class="line">也可以在宿主机执行docker logs -f --tail=<span class="number">100</span> [容器名/容器ID] 查看日志</span><br></pre></td></tr></table></figure></p>
 <h2 id="五操作容器和镜像的命令">五.操作容器和镜像的命令</h2>
 <p><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">docker start 【容器名字】 启动容器</span><br><span class="line">docker restart 【容器名字】重启容器</span><br><span class="line">docker stop 【容器名字】关闭容器</span><br><span class="line">docker kill【容器名字】强制关闭容器</span><br><span class="line"></span><br><span class="line">docker rm -f 容器id  强制删除容器</span><br><span class="line">docker rmi  镜像名 删除镜像</span><br><span class="line">docker pull 镜像id  下载镜像</span><br><span class="line"></span><br><span class="line">docker inspect -f <span class="string">'&#123;&#123;.ID&#125;&#125;'</span> 容器名字names   获取容器长id</span><br><span class="line"></span><br><span class="line">docker inspect -f <span class="string">'&#123;&#123;.NetworkSettings.IPAddress&#125;&#125;'</span> 容器名字names   获取容器长ip</span><br><span class="line"></span><br><span class="line">docker cp 本地路径 容器长ID:容器路径         将linux文件cp到docker容器</span><br><span class="line"></span><br><span class="line">docker export [容器名/容器ID]导出镜像</span><br><span class="line">docker <span class="keyword">import</span> [容器名/容器ID]</span><br></pre></td></tr></table></figure></p>
 
