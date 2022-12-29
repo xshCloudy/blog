@@ -134,6 +134,13 @@
 
                         
                         <li>
+                            <a href="/blog/tags/">Tags</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
                             <a href="/blog/about/">About</a>
                         </li>
                         
@@ -142,13 +149,6 @@
                         
                         <li>
                             <a href="/blog/archive/">Archives</a>
-                        </li>
-                        
-                    
-
-                        
-                        <li>
-                            <a href="/blog/tags/">Tags</a>
                         </li>
                         
                     
@@ -208,6 +208,63 @@
             
                 <!-- Main Content -->
 
+
+<div class="post-preview">
+
+    <a href="/blog/uncategorized/用docker将java项目做成镜像/">
+        <h2 class="post-title">
+            用docker将java项目做成镜像
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+        <div class="post-content-preview">
+            一.安装docker
+12345678linux:1.uname -r  查看你当前的内核版本，Docker 要求 CentOS 系统的内核版本高于 3.102.yum update -y 确保 yum 包更新到最新3.yum -y install docker  安装docker4.service docker start &amp; 启动docker5.systemctl status ......
+        </div>
+    </a>
+    
+        <p class="post-meta" style="margin: 10px 0;">
+            Posted by 肖圣豪 on
+            2021-03-10
+        </p>
+        <div class="tags">
+            
+        </div>
+    
+
+</div>
+<hr>
+
+<div class="post-preview">
+
+    <a href="/blog/uncategorized/Arthas线上监控诊断/">
+        <h2 class="post-title">
+            Arthas线上监控诊断
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+        <div class="post-content-preview">
+            一.Arthas是什么？
+123Arthas是Alibaba开源的一款线上监控诊断工具，通过全局视角实时查看应用 load、内存、gc、线程的状态信息，并能在不修改应用代码的情况下，对业务问题进行诊断，包括查看方法调用的出入参、异常，监测方法执行耗时，类加载信息等，大大提升线上问题排查效率。
+二.Arthas安装和配置
+1.Arthas server安装
+12使用Arthas必须先在服务器安......
+        </div>
+    </a>
+    
+        <p class="post-meta" style="margin: 10px 0;">
+            Posted by 肖圣豪 on
+            2021-03-08
+        </p>
+        <div class="tags">
+            
+        </div>
+    
+
+</div>
+<hr>
 
 <div class="post-preview">
 
@@ -469,76 +526,6 @@ mysql主从设置
 </div>
 <hr>
 
-<div class="post-preview">
-
-    <a href="/blog/uncategorized/io.shardingjdbc读写分离/">
-        <h2 class="post-title">
-            shardingjdbc读写分离
-        </h2>
-        <h3 class="post-subtitle">
-            shardingjdbc
-        </h3>
-        <div class="post-content-preview">
-            io.shardingjdbc读写分离
-一.读写分离架构图
-
-二.数据库主从配置
-mysql主从设置
-三.shardingjdbc配置
-1.引入依赖
-12345&lt;dependency&gt;	&lt;groupId&gt;io.shardingjdbc&lt;/groupId&gt;	&lt;artifactId&gt;sharding-jdbc-core&lt;/artifactId......
-        </div>
-    </a>
-    
-        <p class="post-meta" style="margin: 10px 0;">
-            Posted by 肖圣豪 on
-            2020-11-05
-        </p>
-        <div class="tags">
-            
-              <a href="/blog/tags/#java" title="java">java</a>
-            
-        </div>
-    
-
-</div>
-<hr>
-
-<div class="post-preview">
-
-    <a href="/blog/uncategorized/mysql数据库主从设置/">
-        <h2 class="post-title">
-            mysql数据库主从设置
-        </h2>
-        <h3 class="post-subtitle">
-            shardingjdbc
-        </h3>
-        <div class="post-content-preview">
-            mysql数据库主从设置
-一.主从同步原理
-
-二.主从同步设置
-1.安装两个mysql
-2.配置主数据库my.ini
-新建my.ini（windows是my.ini，linux是my.cnf），放在mysql根目录下
-123456789101112131415161718192021222324252627282930[mysql] # 设置mysql客户端默认字符集default-char......
-        </div>
-    </a>
-    
-        <p class="post-meta" style="margin: 10px 0;">
-            Posted by 肖圣豪 on
-            2020-11-05
-        </p>
-        <div class="tags">
-            
-              <a href="/blog/tags/#java" title="java">java</a>
-            
-        </div>
-    
-
-</div>
-<hr>
-
 
 
 <!-- Pager -->
@@ -648,6 +635,14 @@ mysql主从设置
     <ul>
       
         <li>
+          <a href="uncategorized/用docker将java项目做成镜像/">用docker将java项目做成镜像</a>
+        </li>
+      
+        <li>
+          <a href="uncategorized/Arthas线上监控诊断/">Arthas线上监控诊断</a>
+        </li>
+      
+        <li>
           <a href="uncategorized/JVM类加载机制/">JVM类加载机制</a>
         </li>
       
@@ -657,14 +652,6 @@ mysql主从设置
       
         <li>
           <a href="uncategorized/RabbitMQ/">RabbitMQ</a>
-        </li>
-      
-        <li>
-          <a href="uncategorized/用Sentinel做限流、熔断和降级/">用Sentinel做限流、熔断和降级</a>
-        </li>
-      
-        <li>
-          <a href="uncategorized/分布式事务seata-二-springboot-seata-dubbo集成（AT模式）/">分布式事务seata(二)springboot+seata+dubbo集成（AT模式）</a>
         </li>
       
     </ul>
@@ -687,7 +674,7 @@ mysql主从设置
         
     <h5>ARCHIVES</h5>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="archives/2021/02/">二月 2021</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="archives/2021/01/">一月 2021</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="archives/2020/12/">十二月 2020</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="archives/2020/11/">十一月 2020</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="archives/2020/09/">九月 2020</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="archives/2019/12/">十二月 2019</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="archives/2019/09/">九月 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="archives/2019/06/">六月 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="archives/2019/05/">五月 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="archives/2019/01/">一月 2019</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="archives/2018/11/">十一月 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="archives/2018/10/">十月 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="archives/2018/09/">九月 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="archives/2018/08/">八月 2018</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="archives/2017/11/">十一月 2017</a><span class="archive-list-count">1</span></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="archives/2021/03/">三月 2021</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="archives/2021/02/">二月 2021</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="archives/2021/01/">一月 2021</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="archives/2020/12/">十二月 2020</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="archives/2020/11/">十一月 2020</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="archives/2020/09/">九月 2020</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="archives/2019/12/">十二月 2019</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="archives/2019/09/">九月 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="archives/2019/06/">六月 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="archives/2019/05/">五月 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="archives/2019/01/">一月 2019</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="archives/2018/11/">十一月 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="archives/2018/10/">十月 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="archives/2018/09/">九月 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="archives/2018/08/">八月 2018</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="archives/2017/11/">十一月 2017</a><span class="archive-list-count">1</span></li></ul>
     </div>
 
         <hr>
