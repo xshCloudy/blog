@@ -140,14 +140,14 @@
 
                         
                         <li>
-                            <a href="/blog/about/">About</a>
+                            <a href="/blog/tags/">Tags</a>
                         </li>
                         
                     
 
                         
                         <li>
-                            <a href="/blog/tags/">Tags</a>
+                            <a href="/blog/about/">About</a>
                         </li>
                         
                     
@@ -214,13 +214,13 @@
 <p><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">linux:</span><br><span class="line"><span class="number">1</span>.uname -r  查看你当前的内核版本，Docker 要求 CentOS 系统的内核版本高于 <span class="number">3.10</span></span><br><span class="line"><span class="number">2</span>.yum update -y 确保 yum 包更新到最新</span><br><span class="line"><span class="number">3</span>.yum -y install docker  安装docker</span><br><span class="line"><span class="number">4</span>.service docker start &amp; 启动docker</span><br><span class="line"><span class="number">5</span>.systemctl status docker 查看docker状态</span><br><span class="line"><span class="number">6</span>.docker version  查看docker版本</span><br><span class="line"><span class="number">7</span>.docker logs -f --tail=<span class="number">100</span> [容器名/容器ID] 查看日志</span><br></pre></td></tr></table></figure></p>
 <p><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">windows:</span><br><span class="line">安装docker desktop</span><br><span class="line">&lt;https:<span class="comment">//hub.docker.com&gt;</span></span><br><span class="line">&lt;https:<span class="comment">//blog.csdn.net/qq_39611230/article/details/108641842&gt;</span></span><br></pre></td></tr></table></figure></p>
 <h2 id="二制作docker镜像">二.制作docker镜像</h2>
-<p><code>1.打包好一个jar项目demo.jar</code>
-<code>2.准备好dockerfile文件</code>
+<p><code>1.打包好一个jar项目demo.jar</code></p>
+<p><code>2.准备好dockerfile文件</code>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"># 设置本镜像需要使用的基础镜像</span><br><span class="line">FROM  openjdk:<span class="number">8</span>-jre </span><br><span class="line">  </span><br><span class="line"># 把 app.jar 包添加到镜像中</span><br><span class="line">ADD demo.jar /app.jar</span><br><span class="line"> </span><br><span class="line"># 镜像暴露的端口</span><br><span class="line">EXPOSE <span class="number">8030</span></span><br><span class="line"> </span><br><span class="line">RUN bash -c <span class="string">'touch /app.jar'</span></span><br><span class="line">  </span><br><span class="line"># 容器启动命令</span><br><span class="line">ENTRYPOINT [<span class="string">"java"</span>,<span class="string">"-jar"</span>,<span class="string">"/app.jar"</span>]</span><br><span class="line"> </span><br><span class="line"># 设置时区</span><br><span class="line">RUN /bin/cp /usr/share/zoneinfo/Asia/Shanghai /etc/localtime &amp;&amp; echo <span class="string">'Asia/Shanghai'</span> &gt;/etc/timezone</span><br></pre></td></tr></table></figure></p>
 <p><code>3.将准备好demo.jar和dockerfile文件放在同一目录下</code></p>
-<p><code>4.在demo.jar目录下执行docker build -t demo . 构建docker镜像</code>
-<img src="/blog/img/docker/1.jpg" alt="在这里插入图片描述">
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">-t指定构建镜像的名字和版本,demo就是构建成功后镜像的名字，</span><br><span class="line">也可以指定版本如：name:tag</span><br><span class="line">. 是为了让 Docker 到当前本地目录去寻找 Dockerfile 文件</span><br><span class="line">如图，执行docker build命令之后，执行docker images即可看到生成成功的demo镜像</span><br></pre></td></tr></table></figure></p>
+<p><code>4.在demo.jar目录下执行docker build -t demo . 构建docker镜像</code></p>
+<p><img src="/blog/img/docker/1.jpg" alt="在这里插入图片描述"></p>
+<p><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">-t指定构建镜像的名字和版本,demo就是构建成功后镜像的名字，</span><br><span class="line">也可以指定版本如：name:tag</span><br><span class="line">. 是为了让 Docker 到当前本地目录去寻找 Dockerfile 文件</span><br><span class="line">如图，执行docker build命令之后，执行docker images即可看到生成成功的demo镜像</span><br></pre></td></tr></table></figure></p>
 <h2 id="三将docker镜像做成容器">三.将docker镜像做成容器</h2>
 <p><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">docker run --name demo -p <span class="number">8030</span>:<span class="number">8030</span> -d demo</span><br><span class="line"></span><br><span class="line">--name  #给你启动的容器起个名字，以后可以使用这个名字启动或者停止容器</span><br><span class="line">-p #映射端口，将docker宿主机的8030端口和容器的8030端口进行绑定</span><br><span class="line">-v #挂载文件用的</span><br><span class="line">-d #表示启动的是哪个镜像。</span><br></pre></td></tr></table></figure></p>
 <p><img src="/blog/img/docker/2.jpg" alt="在这里插入图片描述">
